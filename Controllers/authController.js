@@ -68,7 +68,6 @@ export const login = async (req, res, next) => {
         message: 'User logged in successfully',
         data: {
           user: userData,
-          token,
         },
       });
     console.log('User logged in:', userData);
