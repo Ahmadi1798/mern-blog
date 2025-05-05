@@ -1,0 +1,78 @@
+import { User } from '../models/userModel.js';
+import bcrypt from 'bcryptjs';
+import { errorHandler } from '../utils/error.js';
+import jwt from 'jsonwebtoken';
+export const register = async (req, res, next) => {
+  const { username, email, password } = req.body;
+  console.log('Received data:', req.body);
+
+  if (
+    !username ||
+    !email ||
+    !password ||
+    password === '' ||
+    username === '' ||
+    email === ''
+  ) {
+    next(errorHandler(400, 'Please fill all the fields'));
+  }
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10); // we can use hashsync method alternatively
+    const user = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+    });
+    // alternatively we can use this way to insert date const user = new User({ username, email, password: hashedPassword }); await user.save();
+    res.status(201).json({
+      status: 'success',
+      success: true,
+      message: 'User created successfully',
+      data: {
+        user,
+      },
+    });
+    console.log('User created:', user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const login = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  if (!email || !password || email === '' || password === '') {
+    return next(errorHandler(400, 'Please fill all the fields'));
+  }
+
+  try {
+    const validUser = await User.findOne({ email });
+    if (!validUser) {
+      return next(errorHandler(401, 'User not found'));
+    }
+    const isPasswordMatched = bcrypt.compareSync(password, validUser.password);
+    if (!isPasswordMatched) {
+      return next(errorHandler(401, 'Invalid credentials'));
+    }
+    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+    const { password: userPassword, ...userData } = validUser._doc;
+    res
+      .status(200)
+      .cookie('access_token', token, {
+        http: true,
+      })
+      .json({
+        status: 'success',
+        success: true,
+        message: 'User logged in successfully',
+        data: {
+          user: userData,
+          token,
+        },
+      });
+    console.log('User logged in:', userData);
+  } catch (error) {
+    next(error);
+  }
+};
