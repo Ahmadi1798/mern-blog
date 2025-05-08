@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/v1', userRoute);
-app.use('/api/v1', authRoute);
+app.use('/api/v1/auth', authRoute);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

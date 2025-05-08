@@ -11,6 +11,7 @@ import {
   loginSuccess,
   loginFailure,
 } from '../Redux/user/userSlice';
+import GAuth from '../Components/GAuth';
 const SignIn = () => {
   const [formData, setFormData] = useState({});
   const { loading, error: errorMessage } = useSelector((state) => state.user);
@@ -27,7 +28,7 @@ const SignIn = () => {
     e.preventDefault();
     try {
       dispatch(loginStart());
-      const res = await axios.post('/api/v1/login', formData);
+      const res = await axios.post('/api/v1/auth/login', formData);
       toast.success('Login Successful');
       const data = await res.data;
       dispatch(loginSuccess(data));
@@ -89,6 +90,7 @@ const SignIn = () => {
               'Log In'
             )}
           </button>
+          <GAuth />
           <div className="flex space-x-3 items-center text-sm">
             <span className="">Don't have an account</span>
 

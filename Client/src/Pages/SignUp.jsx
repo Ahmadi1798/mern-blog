@@ -4,6 +4,7 @@ import signUpImage from '../assets/images/sign-up.png';
 import { Form, Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+import GAuth from '../Components/GAuth';
 const SignUp = () => {
   const [formData, setFormData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +20,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      await axios.post('/api/v1/register', formData);
+      await axios.post('/api/v1/auth/register', formData);
       toast.success('Registration successful');
       setIsLoading(false);
       navigate('/sign-in');
@@ -89,6 +90,7 @@ const SignUp = () => {
               'Register'
             )}
           </button>
+          <GAuth />
           <div className="flex space-x-3 items-center text-sm">
             <span className="">Have an account</span>
 
