@@ -5,14 +5,23 @@ import {
   NavbarToggle,
   NavbarCollapse,
   NavbarLink,
+  Dropdown,
+  DropdownHeader,
+  DropdownItem,
+  DropdownDivider,
+  Avatar,
 } from 'flowbite-react';
+import { HiOutlineUserCircle, HiLogout } from 'react-icons/hi';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { GoSearch } from 'react-icons/go';
 import { CiDark, CiLight } from 'react-icons/ci';
 import logo from '../assets/images/logo.png';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+  const { currentUser } = useSelector((state) => state.user);
+
   const [isLightMode, setIsLightMode] = useState(true);
   const path = useLocation().pathname;
   const handleClick = () => {
@@ -39,19 +48,49 @@ const Header = () => {
       <div className="flex items-center gap-2 md:order-2">
         <Button
           size="sm"
-          className="cursor-pointer"
+          className="cursor-pointer hidden md:block"
           onClick={handleClick}
           color="light"
         >
           {isLightMode ? <CiLight /> : <CiDark />}
         </Button>
-        <Button
-          outline
-          className="hover:bg-neutral-900 hover:text-white border-neutral-900 text-neutral-900"
-          size="sm"
-        >
-          <Link to="/sign-up">Sign Up</Link>
-        </Button>
+        {currentUser ? (
+          <Dropdown
+            dismissOnClick={false}
+            arrowIcon={false}
+            rounded
+            inline
+            label={
+              <Avatar
+                alt="user avatar"
+                rounded
+                img={currentUser.profilePicture}
+              />
+            }
+          >
+            <DropdownHeader>
+              <span className="block text-sm">@{currentUser.username}</span>
+            </DropdownHeader>
+            <DropdownHeader>
+              <span className="block text-sm truncate">
+                {currentUser.email}
+              </span>
+            </DropdownHeader>
+            <Link to={'/dashboard?tap=profile'}>
+              <DropdownItem icon={HiOutlineUserCircle}>Profile</DropdownItem>
+            </Link>
+            <DropdownDivider />
+            <DropdownItem icon={HiLogout}>Log out</DropdownItem>
+          </Dropdown>
+        ) : (
+          <Button
+            outline
+            className=" hover:bg-neutral-900 hover:text-white border-neutral-900 text-neutral-900"
+            size="sm"
+          >
+            <Link to="/sign-up">Sign Up</Link>
+          </Button>
+        )}
         <NavbarToggle />
       </div>
       <NavbarCollapse>
