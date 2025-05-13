@@ -12,24 +12,24 @@ import {
   Avatar,
 } from 'flowbite-react';
 import { HiOutlineUserCircle, HiLogout } from 'react-icons/hi';
-import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { GoSearch } from 'react-icons/go';
 import { CiDark, CiLight } from 'react-icons/ci';
 import logo from '../assets/images/logo.png';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleTheme } from '../Redux/theme/themeSlice';
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const { theme } = useSelector((state) => state.theme);
+  const dispatch = useDispatch();
 
-  const [isLightMode, setIsLightMode] = useState(true);
   const path = useLocation().pathname;
   const handleClick = () => {
-    setIsLightMode(!isLightMode);
-    document.documentElement.classList.toggle('dark');
+    dispatch(toggleTheme());
   };
   return (
-    <Navbar className="border-b border-slate-500 fixed top-0 left-0 right-0 z-50 ">
+    <Navbar className="border-b border-slate-500 sticky top-0 z-50   ">
       <Link to="/" className="text-2xl md:text-4xl font-bold text-slate-900">
         <img src={logo} className="w-32" alt="" />
       </Link>
@@ -52,7 +52,7 @@ const Header = () => {
           onClick={handleClick}
           color="light"
         >
-          {isLightMode ? <CiLight /> : <CiDark />}
+          {theme === 'light' ? <CiLight /> : <CiDark />}
         </Button>
         {currentUser ? (
           <Dropdown

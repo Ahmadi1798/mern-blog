@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Button, Label, Spinner, TextInput } from 'flowbite-react';
-import signInImage from '../assets/images/log-in.png';
+import signInImage from '../assets/images/login.png';
 import { Form, Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -44,7 +44,7 @@ const SignIn = () => {
       {/* flex Container */}
       <div className="flex flex-col items-center min-h-screen space-y-5 justify-center  md:flex-row md:space-y-0 md:space-x-5 gap-10 ">
         {/* left side */}
-        <div className=" hidden md:block">
+        <div className=" hidden md:block ">
           <img src={signInImage} alt="signIn image" />
         </div>
         {/* right side */}

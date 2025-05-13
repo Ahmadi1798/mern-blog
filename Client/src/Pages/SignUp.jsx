@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Button, Label, Spinner, TextInput } from 'flowbite-react';
-import signUpImage from '../assets/images/sign-up.png';
+import signUpImage from '../assets/images/register.png';
 import { Form, Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
