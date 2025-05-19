@@ -25,14 +25,7 @@ export const register = async (req, res, next) => {
       password: hashedPassword,
     });
     // alternatively we can use this way to insert date const user = new User({ username, email, password: hashedPassword }); await user.save();
-    res.status(201).json({
-      status: 'success',
-      success: true,
-      message: 'User created successfully',
-      data: {
-        user,
-      },
-    });
+    res.status(201).json(user);
     console.log('User created:', user);
   } catch (error) {
     next(error);
@@ -61,15 +54,9 @@ export const login = async (req, res, next) => {
       .status(200)
       .cookie('access_token', token, {
         http: true,
+        messages: 'User logged in successfully',
       })
-      .json({
-        status: 'success',
-        success: true,
-        message: 'User logged in successfully',
-        data: {
-          user: userData,
-        },
-      });
+      .json(userData);
     console.log('User logged in:', userData);
   } catch (error) {
     next(error);

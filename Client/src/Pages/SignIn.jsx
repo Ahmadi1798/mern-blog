@@ -30,8 +30,7 @@ const SignIn = () => {
       dispatch(loginStart());
       const res = await axios.post('/api/v1/auth/login', formData);
       toast.success('Login Successful');
-      const data = await res.data;
-      dispatch(loginSuccess(data));
+      dispatch(loginSuccess(res.data));
       navigate('/');
     } catch (error) {
       dispatch(loginFailure(error?.response?.data?.message));

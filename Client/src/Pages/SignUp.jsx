@@ -5,7 +5,10 @@ import { Form, Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import GAuth from '../Components/GAuth';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../Redux/user/userSlice';
 const SignUp = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -20,9 +23,10 @@ const SignUp = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      await axios.post('/api/v1/auth/register', formData);
+      const res = await axios.post('/api/v1/auth/register', formData);
       toast.success('Registration successful');
       setIsLoading(false);
+      dispatch(loginSuccess(res.data));
       navigate('/sign-in');
     } catch (error) {
       setIsLoading(false);
