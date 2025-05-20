@@ -2,6 +2,7 @@ import { User } from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
+
 export const register = async (req, res, next) => {
   const { username, email, password } = req.body;
   console.log('Received data:', req.body);
@@ -48,7 +49,10 @@ export const login = async (req, res, next) => {
     if (!isPasswordMatched) {
       return next(errorHandler(401, 'Invalid credentials'));
     }
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { id: validUser._id, isAdmin: validUser.isAdmin },
+      process.env.JWT_SECRET
+    );
     const { password: userPassword, ...userData } = validUser._doc;
     res
       .status(200)
@@ -67,7 +71,10 @@ export const googleAuth = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: user._id, isAdmin: user.isAdmin },
+        process.env.JWT_SECRET
+      );
       const { password: userPassword, ...userData } = user._doc;
       res
         .status(200)
@@ -90,7 +97,10 @@ export const googleAuth = async (req, res, next) => {
         password: hashedPassword,
         profilePicture: image,
       });
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+      const token = jwt.sign(
+        { id: newUser._id, isAdmin: newUser.isAdmin },
+        process.env.JWT_SECRET
+      );
       const { password: userPassword, ...userData } = newUser._doc;
       res
         .status(201)
@@ -103,7 +113,9 @@ export const googleAuth = async (req, res, next) => {
         })
         .json(userData);
     }
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const deleteUser = async (req, res, next) => {
