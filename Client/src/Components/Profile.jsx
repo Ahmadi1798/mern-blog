@@ -2,20 +2,24 @@ import { Button, FileInput, Label, TextInput } from 'flowbite-react';
 import { useSelector } from 'react-redux';
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { loginSuccess } from '../Redux/user/userSlice';
+import {
+  updateStart,
+  updateSuccess,
+  updateFailure,
+} from '../Redux/user/userSlice';
+import { toast } from 'react-toastify';
+
 import axios from 'axios';
 
 const Profile = () => {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
-  const [image, setImage] = useState(null);
   const [ImageURL, setImageURL] = useState(null);
   const imageRef = useRef();
-  console.log('Current User:', currentUser);
+  const [formData, setFormData] = useState({});
   const handleChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImage(file);
       setImageURL(URL.createObjectURL(file));
       uploadImage(file);
     }
@@ -25,35 +29,55 @@ const Profile = () => {
   //     uploadImage();
   //   }
   // }, [ImageURL]);
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+    console.log(formData);
+  };
   console.log('Current User ID:', currentUser._id);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (Object.keys(formData).length === 0) {
+      toast.error('Please fill in the fields');
+      return;
+    }
+    try {
+      dispatch(updateStart());
+      const { data } = await axios.put(
+        `/api/v1/users/${currentUser._id}`,
+        formData
+      );
+      dispatch(updateSuccess(data.user));
+      toast.success('Profile updated successfully');
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      dispatch(updateFailure());
+      toast.error(error?.response?.data?.message || 'Error updating profile');
+    }
+  };
   const uploadImage = async (file) => {
     if (!file) return;
-    const formData = new FormData();
-    formData.append('image', file);
-    console.log('Form Data:', formData);
+    const imageData = new FormData();
+    imageData.append('image', file);
     try {
-      const { data } = await axios.post('/api/v1/upload', formData, {
+      const { data } = await axios.post('/api/v1/upload', imageData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       console.log('Image Data:', data);
-      await axios.put(
-        `/api/v1/users/${currentUser._id}`,
-        {
-          profilePicture: data.url,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${currentUser.token}`,
-          },
-        }
-      );
-      dispatch(loginSuccess({ ...currentUser, profilePicture: data.url }));
-      alert('Image uploaded successfully');
+      await axios.put(`/api/v1/users/${currentUser._id}`, {
+        profilePicture: data.url,
+      });
+      dispatch(updateSuccess({ ...currentUser, profilePicture: data.url }));
+      toast.success('Image uploaded successfully');
     } catch (error) {
       console.error('Error uploading image:', error);
-      alert('Error uploading image');
+      toast.error(error?.response?.data?.message || 'Error uploading image');
     }
   };
   return (
@@ -68,7 +92,10 @@ const Profile = () => {
         className="hidden w-60"
         ref={imageRef}
       />
-      <form className="flex flex-col items-center space-y-10 max-w-lg w-full px-10  ">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center space-y-10 max-w-lg w-full px-10  "
+      >
         {/* Overlay */}
 
         {/* Profile Image */}
@@ -87,20 +114,27 @@ const Profile = () => {
         <div className="flex flex-col space-y-4 w-full">
           <TextInput
             type="text"
+            id="username"
             defaultValue={currentUser.username}
             className="w-full"
+            onChange={handleInputChange}
           />
           <TextInput
             type="email"
+            id="email"
             defaultValue={currentUser.email}
             className="w-full"
+            onChange={handleInputChange}
           />
           <TextInput
             type="password"
+            id="password"
             placeholder="********"
             className="w-full"
+            onChange={handleInputChange}
           />
           <button
+            type="submit"
             className="hover:bg-blue-500 hover:text-white font-bold
          text-blue-500 bg-white  py-2 rounded border-1  border-blue-500 cursor-pointer shadow-sm transition-all duration-300 w-full mt-4 tracking-wide capitalize"
           >

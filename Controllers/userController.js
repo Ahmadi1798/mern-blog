@@ -1,12 +1,14 @@
 import { User } from '../models/userModel.js';
 import { errorHandler } from '../utils/error.js';
+import bcrypt from 'bcryptjs';
 export const userController = (req, res) => {
   res.json({ message: 'User route is working' });
 };
 
 export const updateUser = async (req, res, next) => {
-  const { id } = req.params;
-  if (req.user.id !== id) {
+  const { userId } = req.params;
+
+  if (req.user.id !== userId) {
     return next(errorHandler(403, 'You are not allowed to update this user'));
   }
   if (req.body.password) {
@@ -27,28 +29,24 @@ export const updateUser = async (req, res, next) => {
       );
     }
   }
-  if (req.body.username.includes(' ')) {
-    return next(errorHandler(400, 'Username should not contain spaces'));
-  }
-  if (req.body.username !== req.body.username.toLowerCase()) {
-    return next(errorHandler(400, 'Username should be in lowercase'));
-  }
-  if (!req.body.username.match(/^[a-z0-9]+$/)) {
-    return next(
-      errorHandler(
-        400,
-        'Username should only contain lowercase letters and numbers'
-      )
-    );
-  }
+
+  // if (req.body.username !== req.body.username.toLowerCase()) {
+  //   return next(errorHandler(400, 'Username should be in lowercase'));
+  // }
+  // if (!req.body.username.match(/^[a-z0-9]+$/)) {
+  //   return next(
+  //     errorHandler(
+  //       400,
+  //       'Username should only contain lowercase letters and numbers'
+  //     )
+  //   );
+  // }
 
   const { profilePicture, username, email, password } = req.body;
-  console.log('Request Params:', req.params);
-  console.log('Request Body:', req.user);
 
   try {
     const updatedUser = await User.findByIdAndUpdate(
-      id,
+      userId,
       { profilePicture, username, email, password },
       { new: true }
     );
