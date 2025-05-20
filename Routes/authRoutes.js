@@ -4,6 +4,7 @@ import {
   login,
   googleAuth,
   deleteUser,
+  logout,
 } from '../Controllers/authController.js';
 import { verifyToken } from '../utils/verifyUser.js';
 
@@ -12,4 +13,5 @@ router.post('/register', register);
 router.post('/login', login);
 router.post('/google', googleAuth);
 router.delete('/delete/:userId', verifyToken, deleteUser);
+router.post('/logout', logout);
 export default router;

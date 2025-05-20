@@ -1,4 +1,12 @@
-import { Button, FileInput, Label, TextInput } from 'flowbite-react';
+import {
+  Button,
+  FileInput,
+  Label,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  TextInput,
+} from 'flowbite-react';
 import { useSelector } from 'react-redux';
 import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -6,15 +14,21 @@ import {
   updateStart,
   updateSuccess,
   updateFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  deleteUserFailure,
+  logout,
 } from '../Redux/user/userSlice';
 import { toast } from 'react-toastify';
+import { GoAlert } from 'react-icons/go';
 
 import axios from 'axios';
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, error } = useSelector((state) => state.user);
   const [ImageURL, setImageURL] = useState(null);
+  const [showModel, setShowModel] = useState(false);
   const imageRef = useRef();
   const [formData, setFormData] = useState({});
   const handleChange = (e) => {
@@ -58,6 +72,9 @@ const Profile = () => {
       dispatch(updateFailure());
       toast.error(error?.response?.data?.message || 'Error updating profile');
     }
+    if (error) {
+      toast.error(error);
+    }
   };
   const uploadImage = async (file) => {
     if (!file) return;
@@ -80,6 +97,29 @@ const Profile = () => {
       toast.error(error?.response?.data?.message || 'Error uploading image');
     }
   };
+  const handleDeleteAccount = async () => {
+    setShowModel(false);
+    try {
+      dispatch(deleteUserStart());
+      await axios.delete(`/api/v1/auth/delete/${currentUser._id}`);
+      dispatch(deleteUserSuccess());
+      toast.success('Successfully Deleted');
+    } catch (error) {
+      dispatch(deleteUserFailure());
+      toast.error(error?.response?.data?.message);
+    }
+  };
+
+  const handleLogoutUser = async () => {
+    try {
+      await axios.post('/api/v1/auth/logout');
+      toast.success('User logged out Successfully');
+      dispatch(logout());
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
   return (
     <div className="container flex flex-col space-y-10 items-center mx-auto mt-36">
       <h2 className="text-2xl md:text-4xl tracking-wide font-semibold">
@@ -141,15 +181,56 @@ const Profile = () => {
             Update
           </button>
           <div className="flex flex-row justify-between">
-            <button className="text-xs capitalize text-red-600 cursor-pointer  hover:underline hover:text-red-700">
+            <button
+              type="button"
+              onClick={() => setShowModel(true)}
+              className="text-xs capitalize text-red-600 cursor-pointer  hover:underline hover:text-red-700"
+            >
               delete Account
             </button>
-            <button className="text-xs capitalize text-red-600 cursor-pointer  hover:underline hover:text-red-700">
+            <button
+              type="button"
+              onClick={handleLogoutUser}
+              className="text-xs capitalize text-red-600 cursor-pointer  hover:underline hover:text-red-700"
+            >
               sign out
             </button>
           </div>
         </div>
       </form>
+      <Modal show={showModel} onClose={() => setShowModel(false)}>
+        <ModalHeader />
+        <ModalBody>
+          <div className="flex flex-col items-center gap-5">
+            <div className="flex flex-row items-center space-x-2">
+              <GoAlert className="text-red-600 text-3xl" size={70} />
+            </div>
+            <h2 className="text-sm text-slate-600  tracking-wide font-semibold">
+              Are you sure you want to delete your account?
+            </h2>
+            <div className="flex flex-row space-x-4 mt-3">
+              <Button
+                color="red"
+                outline
+                onClick={handleDeleteAccount}
+                className="w-32"
+              >
+                Yes, Delete
+              </Button>
+              <Button
+                color="gray"
+                outline
+                onClick={() => {
+                  setShowModel(false);
+                }}
+                className="w-32"
+              >
+                No, Cancel
+              </Button>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
     </div>
   );
 };

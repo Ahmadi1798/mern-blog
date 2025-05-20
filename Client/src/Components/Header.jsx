@@ -18,7 +18,9 @@ import { CiDark, CiLight } from 'react-icons/ci';
 import logo from '../assets/images/logo.png';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleTheme } from '../Redux/theme/themeSlice';
-
+import { logout } from '../Redux/user/userSlice';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
   const { theme } = useSelector((state) => state.theme);
@@ -28,6 +30,17 @@ const Header = () => {
   const handleClick = () => {
     dispatch(toggleTheme());
   };
+
+  const handleLogoutUser = async () => {
+    try {
+      await axios.post('/api/v1/auth/logout');
+      toast.success('User logged out Successfully');
+      dispatch(logout());
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
   return (
     <Navbar className="border-b border-slate-500 sticky top-0 z-50   ">
       <Link to="/" className="text-2xl md:text-4xl font-bold text-slate-900">
@@ -80,7 +93,9 @@ const Header = () => {
               <DropdownItem icon={HiOutlineUserCircle}>Profile</DropdownItem>
             </Link>
             <DropdownDivider />
-            <DropdownItem icon={HiLogout}>Log out</DropdownItem>
+            <DropdownItem onClick={handleLogoutUser} icon={HiLogout}>
+              Log out
+            </DropdownItem>
           </Dropdown>
         ) : (
           <Button

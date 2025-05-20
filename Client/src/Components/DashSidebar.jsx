@@ -7,7 +7,12 @@ import {
 import { HiUser, HiLogout } from 'react-icons/hi';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { logout } from '../Redux/user/userSlice';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 const DashSidebar = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const [tab, setTab] = useState('');
   useEffect(() => {
@@ -17,6 +22,17 @@ const DashSidebar = () => {
       setTab(tab);
     }
   }, [location.search]);
+
+  const handleLogoutUser = async () => {
+    try {
+      await axios.post('/api/v1/auth/logout');
+      toast.success('User logged out Successfully');
+      dispatch(logout());
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+
   return (
     <Sidebar className="w-full ">
       <SidebarItems>
@@ -32,7 +48,9 @@ const DashSidebar = () => {
               Profile
             </SidebarItem>
           </Link>
-          <SidebarItem icon={HiLogout}>Sign Out</SidebarItem>
+          <SidebarItem onClick={handleLogoutUser} icon={HiLogout}>
+            Sign Out
+          </SidebarItem>
         </SidebarItemGroup>
       </SidebarItems>
     </Sidebar>
