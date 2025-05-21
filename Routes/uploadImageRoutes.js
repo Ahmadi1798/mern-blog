@@ -27,10 +27,11 @@ router.post('/upload', async (req, res) => {
     }
 
     const file = req.files.image;
+    const folder = req.body.folder || 'uploads';
 
     // Upload to Cloudinary
     const result = await cloudinary.uploader.upload(file.tempFilePath, {
-      folder: 'uploads',
+      folder,
     });
 
     res.status(200).json({ url: result.secure_url });

@@ -2,7 +2,7 @@ import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { useSelector } from 'react-redux';
 
-const TextEditor = () => {
+const TextEditor = ({ onChange }) => {
   const { theme } = useSelector((state) => state.theme);
   const contentStyle =
     theme === 'dark'
@@ -10,6 +10,7 @@ const TextEditor = () => {
       : '';
   return (
     <Editor
+      onEditorChange={onChange}
       apiKey="mww7qmvijb4577fjw6n4juy06lqaq06127q97xv1zd90s84r"
       init={{
         skin: theme === 'dark' ? 'oxide-dark' : 'oxide',
