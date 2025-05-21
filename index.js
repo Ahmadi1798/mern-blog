@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoute from './Routes/userRoute.js';
 import authRoute from './Routes/authRoutes.js';
-import uploadRoutes from './Routes/uploadRoutes.js';
+import uploadImageRoute from './Routes/uploadImageRoutes.js';
+import postRoutes from './Routes/postRoutes.js';
 import cookieParser from 'cookie-parser';
 dotenv.config();
 const app = express();
@@ -14,7 +15,8 @@ app.use(cookieParser());
 
 app.use('/api/v1', userRoute);
 app.use('/api/v1/auth', authRoute);
-app.use('/api/v1', uploadRoutes);
+app.use('/api/v1', uploadImageRoute);
+app.use('/api/v1/posts', postRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

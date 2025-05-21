@@ -69,7 +69,7 @@ const Header = () => {
         </Button>
         {currentUser ? (
           <Dropdown
-            dismissOnClick={false}
+            dismissOnClick={true}
             arrowIcon={false}
             rounded
             inline

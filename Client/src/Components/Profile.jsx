@@ -23,10 +23,11 @@ import { toast } from 'react-toastify';
 import { GoAlert } from 'react-icons/go';
 
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const [ImageURL, setImageURL] = useState(null);
   const [showModel, setShowModel] = useState(false);
   const imageRef = useRef();
@@ -173,13 +174,21 @@ const Profile = () => {
             className="w-full"
             onChange={handleInputChange}
           />
-          <button
+          <Button
             type="submit"
-            className="hover:bg-blue-500 hover:text-white font-bold
-         text-blue-500 bg-white  py-2 rounded border-1  border-blue-500 cursor-pointer shadow-sm transition-all duration-300 w-full mt-4 tracking-wide capitalize"
+            outline
+            className="cursor-pointer w-full text-sm"
+            disabled={loading}
           >
-            Update
-          </button>
+            {loading ? 'Updating...' : 'Update'}
+          </Button>
+          {currentUser.isAdmin && (
+            <Link to={'/create-post'}>
+              <Button className="cursor-pointer w-full text-sm" type="button">
+                Create Post
+              </Button>
+            </Link>
+          )}
           <div className="flex flex-row justify-between">
             <button
               type="button"
