@@ -122,7 +122,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="container flex flex-col space-y-10 items-center mx-auto mt-36">
+    <div className="w-full flex flex-col space-y-10 items-center mt-30 pb-10">
       <h2 className="text-2xl md:text-4xl tracking-wide font-semibold">
         Profile
       </h2>
