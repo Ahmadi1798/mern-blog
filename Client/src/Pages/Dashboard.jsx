@@ -18,7 +18,7 @@ const Dashboard = () => {
 
   return (
     <div
-      className="flex flex-col md:flex-row md:space-x-5
+      className="flex flex-col md:flex-row
      min-h-screen"
     >
       <div className="w-1/5">
