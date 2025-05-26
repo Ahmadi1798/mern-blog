@@ -37,7 +37,7 @@ const DashSidebar = () => {
   };
 
   return (
-    <Sidebar className="w-full">
+    <Sidebar className="w-full ">
       <SidebarItems>
         <SidebarItemGroup className="flex flex-col gap-0.5">
           <Link to="/dashboard?tab=profile">

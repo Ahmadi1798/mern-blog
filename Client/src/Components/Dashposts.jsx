@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 
 const Dashposts = () => {
   const { currentUser } = useSelector((state) => state.user);
+  const [showMorePosts, setShowMorePosts] = useState(true);
   const [userPosts, setUserPosts] = useState([]);
   useEffect(() => {
     const fetchPosts = async () => {
@@ -22,6 +23,9 @@ const Dashposts = () => {
         const res = await axios.get(
           `/api/v1/posts/getPosts?userId=${currentUser._id}`
         );
+        if (res.data.posts.length < 9) {
+          setShowMorePosts(false);
+        }
         toast.success('Success');
         setUserPosts(res.data.posts);
       } catch (error) {
@@ -33,11 +37,28 @@ const Dashposts = () => {
       fetchPosts();
     }
   }, [currentUser._id]);
+
+  const handleShowMore = async () => {
+    const startIndex = userPosts.length;
+    try {
+      const res = await axios.get(
+        `/api/v1/posts/getPosts?userId=${currentUser._id}&startIndex=${startIndex}`
+      );
+      if (res.data.posts.length < 9) {
+        setShowMorePosts(false);
+      }
+      toast.success('Success');
+      setUserPosts([...userPosts, ...res.data.posts]);
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || 'Something went wrong');
+    }
+  };
   return (
-    <div className="table-auto p-2 overflow-x-scroll scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
+    <div className="table-auto p-2 overflow-x-scroll scrollbar  scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
       {currentUser.isAdmin && userPosts.length > 0 ? (
         <>
-          <Table hoverable className="shadow-md">
+          <Table hoverable>
             <TableHead>
               <TableHeadCell>Data Updated</TableHeadCell>
               <TableHeadCell>Post Image</TableHeadCell>
@@ -68,9 +89,12 @@ const Dashposts = () => {
                     <TableCell>
                       <Link
                         to={`/post/${post.slug}`}
-                        className="text-gray-900 dark:text-white capitalize font-semibold "
+                        className="text-gray-900 dark:text-white capitalize font-semibold  "
                       >
-                        {post.title}
+                        <span className="min-w-[200px] block">
+                          {' '}
+                          {post.title}
+                        </span>
                       </Link>
                     </TableCell>
                     <TableCell>{post.category}</TableCell>
@@ -90,6 +114,14 @@ const Dashposts = () => {
               );
             })}
           </Table>
+          {showMorePosts && (
+            <button
+              onClick={handleShowMore}
+              className="w-full self-center text-center text-teal-500 font-medium hover:underline cursor-pointer my-10"
+            >
+              Show More
+            </button>
+          )}
         </>
       ) : (
         <h2 className="text-center font-semibold text-3xl ">

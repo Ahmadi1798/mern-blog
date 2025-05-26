@@ -21,12 +21,12 @@ const Dashboard = () => {
       className="flex flex-col md:flex-row
      min-h-screen"
     >
-      <div className="w-1/5">
+      <div className=" md:w-1/5">
         {/* sidebar */}
         <DashSidebar />
       </div>
       {/* profile */}
-      <div className="w-4/5">
+      <div className="md:w-4/5">
         {tab === 'profile' && <Profile />}
         {tab === 'posts' && <Dashposts />}
       </div>
