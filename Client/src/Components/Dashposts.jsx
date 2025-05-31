@@ -6,17 +6,24 @@ import {
   TableHead,
   TableHeadCell,
   TableRow,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Button,
 } from 'flowbite-react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { MdDelete } from 'react-icons/md';
 
 const Dashposts = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [showMorePosts, setShowMorePosts] = useState(true);
   const [userPosts, setUserPosts] = useState([]);
+  const [showModel, setShowModel] = useState(false);
+  const [postId, setPostId] = useState('');
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -54,6 +61,21 @@ const Dashposts = () => {
       toast.error(error?.response?.data?.message || 'Something went wrong');
     }
   };
+
+  const handleDeletePost = async () => {
+    setShowModel(false);
+    try {
+      await axios.delete(
+        `/api/v1/posts/deletePost/${postId}/${currentUser._id}`
+      );
+      toast.success('Post deleted successfully');
+      setUserPosts(userPosts.filter((post) => post._id !== postId));
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || 'Something went wrong');
+    }
+  };
+
   return (
     <div className="table-auto p-2 overflow-x-scroll scrollbar  scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 ">
       {currentUser.isAdmin && userPosts.length > 0 ? (
@@ -105,7 +127,13 @@ const Dashposts = () => {
                     </TableCell>
 
                     <TableCell>
-                      <span className="text-red-500 font-medium hover:underline cursor-pointer">
+                      <span
+                        onClick={() => {
+                          setShowModel(true);
+                          setPostId(post._id);
+                        }}
+                        className="text-red-500 font-medium hover:underline cursor-pointer"
+                      >
                         Delete
                       </span>
                     </TableCell>
@@ -128,6 +156,33 @@ const Dashposts = () => {
           There Is No Post Available
         </h2>
       )}
+      <Modal show={showModel} onClose={() => setShowModel(false)}>
+        <ModalHeader />
+        <ModalBody className="max-w-2xl">
+          <div className="flex flex-col items-center gap-5">
+            <div className="flex flex-row items-center space-x-2">
+              <MdDelete className="text-red-600 text-3xl" size={50} />
+            </div>
+            <h2 className="text-sm text-slate-600  tracking-wide font-semibold">
+              Are you sure you want to delete this post?
+            </h2>
+            <div className="flex flex-row space-x-4 mt-3">
+              <Button color="red" outline onClick={handleDeletePost}>
+                Yes, Delete
+              </Button>
+              <Button
+                color="gray"
+                outline
+                onClick={() => {
+                  setShowModel(false);
+                }}
+              >
+                No, Cancel
+              </Button>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
     </div>
   );
 };
