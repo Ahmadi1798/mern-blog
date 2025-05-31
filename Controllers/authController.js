@@ -121,7 +121,7 @@ export const googleAuth = async (req, res, next) => {
 export const deleteUser = async (req, res, next) => {
   console.log('Deleting user with ID:', req.params.userId);
   console.log('Current user ID:', req.user.id);
-  if (req.user.id !== req.params.userId) {
+  if (!req.user.isAdmin && req.user.id !== req.params.userId) {
     return next(errorHandler(403, 'You are not allowed to delete this user'));
   }
   try {

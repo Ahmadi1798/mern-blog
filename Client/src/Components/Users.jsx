@@ -64,16 +64,14 @@ const Users = () => {
 
   const handleDeleteUser = async () => {
     setShowModel(false);
-    // try {
-    //   await axios.delete(
-    //     `/api/v1/posts/deletePost/${userId}/${currentUser._id}`
-    //   );
-    //   toast.success('Post deleted successfully');
-    //   setusers(users.filter((post) => post._id !== userId));
-    // } catch (error) {
-    //   console.log(error);
-    //   toast.error(error?.response?.data?.message || 'Something went wrong');
-    // }
+    try {
+      await axios.delete(`/api/v1/auth/delete/${userId}`);
+      toast.success('User deleted successfully');
+      setusers(users.filter((user) => user._id !== userId));
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.response?.data?.message || 'Something went wrong');
+    }
   };
 
   return (
