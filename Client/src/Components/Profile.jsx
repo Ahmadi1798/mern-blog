@@ -81,6 +81,7 @@ const Profile = () => {
     if (!file) return;
     const imageData = new FormData();
     imageData.append('image', file);
+    imageData.append('folder', 'post_images');
     try {
       const { data } = await axios.post('/api/v1/upload', imageData, {
         headers: {

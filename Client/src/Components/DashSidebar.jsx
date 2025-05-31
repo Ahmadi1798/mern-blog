@@ -4,7 +4,7 @@ import {
   SidebarItemGroup,
   SidebarItems,
 } from 'flowbite-react';
-import { HiUser, HiLogout, HiDocumentText } from 'react-icons/hi';
+import { HiUser, HiLogout, HiDocumentText, HiUserGroup } from 'react-icons/hi';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -60,6 +60,18 @@ const DashSidebar = () => {
                 as="div"
               >
                 Posts
+              </SidebarItem>
+            </Link>
+          )}
+          {currentUser?.isAdmin && (
+            <Link to={'/dashboard?tab=users'}>
+              <SidebarItem
+                active={tab === 'users'}
+                icon={HiUserGroup}
+                labelColor="dark"
+                as="div"
+              >
+                Users
               </SidebarItem>
             </Link>
           )}
