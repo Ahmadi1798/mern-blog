@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 import { Button, Spinner } from 'flowbite-react';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism-tomorrow.css'; // Make sure this matches your import
+import CTA from '../Components/CTA';
+import Comment from '../Components/Comment';
 
 const PostPage = () => {
   const { slug } = useParams();
@@ -69,6 +71,10 @@ const PostPage = () => {
         className="p-2 mt-10 post-content"
         dangerouslySetInnerHTML={{ __html: post?.content }}
       ></div>
+      <div>
+        <CTA />
+        <Comment postId={post?._id} />
+      </div>
     </main>
   );
 };

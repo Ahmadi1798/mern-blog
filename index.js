@@ -5,6 +5,7 @@ import userRoute from './Routes/userRoute.js';
 import authRoute from './Routes/authRoutes.js';
 import uploadImageRoute from './Routes/uploadImageRoutes.js';
 import postRoutes from './Routes/postRoutes.js';
+import commentRoutes from './Routes/CommentRoutes.js';
 import cookieParser from 'cookie-parser';
 dotenv.config();
 const app = express();
@@ -17,6 +18,7 @@ app.use('/api/v1', userRoute);
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1', uploadImageRoute);
 app.use('/api/v1/posts', postRoutes);
+app.use('/api/v1/comment', commentRoutes);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
