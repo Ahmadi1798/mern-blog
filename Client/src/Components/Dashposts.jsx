@@ -82,20 +82,25 @@ const Dashposts = () => {
         <>
           <Table hoverable>
             <TableHead>
-              <TableHeadCell>Data Updated</TableHeadCell>
-              <TableHeadCell>Post Image</TableHeadCell>
-              <TableHeadCell>Post Title</TableHeadCell>
-              <TableHeadCell>Category</TableHeadCell>
+              <TableRow>
+                <TableHeadCell>Data Updated</TableHeadCell>
+                <TableHeadCell>Post Image</TableHeadCell>
+                <TableHeadCell>Post Title</TableHeadCell>
+                <TableHeadCell>Category</TableHeadCell>
 
-              <TableHeadCell>
-                <span>Edit</span>
-              </TableHeadCell>
-              <TableHeadCell>Delete</TableHeadCell>
+                <TableHeadCell>
+                  <span>Edit</span>
+                </TableHeadCell>
+                <TableHeadCell>Delete</TableHeadCell>
+              </TableRow>
             </TableHead>
-            {userPosts.map((post) => {
-              return (
-                <TableBody className="divide-y divide-amber-500">
-                  <TableRow className="border dark:border-gray-700 border-gray-200">
+            <TableBody>
+              {userPosts.map((post) => {
+                return (
+                  <TableRow
+                    key={post._id}
+                    className="border dark:border-gray-700 border-gray-200"
+                  >
                     <TableCell>
                       {new Date(post.updatedAt).toLocaleDateString()}
                     </TableCell>
@@ -138,9 +143,9 @@ const Dashposts = () => {
                       </span>
                     </TableCell>
                   </TableRow>
-                </TableBody>
-              );
-            })}
+                );
+              })}
+            </TableBody>
           </Table>
           {showMorePosts && (
             <button

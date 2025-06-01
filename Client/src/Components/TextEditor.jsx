@@ -2,7 +2,7 @@ import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import { useSelector } from 'react-redux';
 
-const TextEditor = ({ onChange }) => {
+const TextEditor = ({ onChange, value }) => {
   const { theme } = useSelector((state) => state.theme);
   const contentStyle =
     theme === 'dark'
@@ -23,7 +23,7 @@ const TextEditor = ({ onChange }) => {
         statusbar: false,
         height: 300,
       }}
-      initialValue="Write Something..."
+      initialValue={value || 'Write Something...'}
     />
   );
 };

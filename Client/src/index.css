@@ -3,6 +3,8 @@
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
 @plugin 'tailwind-scrollbar';
+@import 'prismjs/themes/prism-tomorrow.css';
+/* Or any Prism theme you like */
 
 active {
     @apply bg-neutral-700;
@@ -12,6 +14,123 @@ active {
     html {
         font-family: 'Poppins', sans-serif;
     }
+}
+
+.post-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #222;
+    background: #fff;
+    border-radius: 0.5rem;
+    padding: 2rem 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    margin-bottom: 2rem;
+    word-break: break-word;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+@media (max-width: 600px) {
+    .post-content {
+        padding: 1rem 0.5rem;
+        font-size: 1rem;
+    }
+}
+
+.dark .post-content {
+    background: #18181b;
+    color: #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4 {
+    font-weight: 700;
+    @import 'prismjs/themes/prism-tomorrow.css';
+    /* Or any Prism theme you like */
+    @import 'prismjs/themes/prism-tomorrow.css';
+    /* Or any Prism theme you like */
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.post-content h1 {
+    font-size: 2rem;
+}
+
+.post-content h2 {
+    font-size: 1.5rem;
+}
+
+.post-content h3 {
+    font-size: 1.2rem;
+}
+
+.post-content p {
+    margin-bottom: 1rem;
+}
+
+.post-content ul,
+.post-content ol {
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+.post-content a {
+    color: #0ea5e9;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.post-content a:hover {
+    color: #0369a1;
+}
+
+.dark .post-content a {
+    color: #38bdf8;
+}
+
+.dark .post-content a:hover {
+    color: #0ea5e9;
+}
+
+.post-content pre {
+    background: #18181b;
+    color: #e5e7eb;
+    padding: 1rem;
+    border-radius: 0.4rem;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+    font-size: 0.95em;
+}
+
+.dark .post-content pre {
+    background: #27272a;
+    color: #f1f5f9;
+}
+
+.post-content code {
+    background: #f3f4f6;
+    color: #d97706;
+    padding: 0.2em 0.4em;
+    border-radius: 0.3em;
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+    font-size: 0.98em;
+}
+
+.dark .post-content code {
+    background: #27272a;
+    color: #fbbf24;
+}
+
+.post-content pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+    font-size: 1em;
 }
 
 @custom-variant dark (&:where(.dark, .dark *), .dark)
