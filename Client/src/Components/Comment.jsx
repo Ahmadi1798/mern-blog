@@ -4,10 +4,29 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useEffect } from 'react';
+import Comments from './Comments';
 
 const Comment = ({ postId }) => {
   const { currentUser } = useSelector((state) => state.user);
   const [comment, setComment] = useState('');
+  const [comments, setComments] = useState([]);
+
+  console.log(comments);
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const res = await axios.get(
+          `/api/v1/comment/getPostComments/${postId}`
+        );
+        setComments(res.data);
+      } catch (error) {
+        toast.err(error?.response?.data?.message || 'Something went wrong');
+      }
+    };
+    getComments();
+  }, [postId]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -20,6 +39,7 @@ const Comment = ({ postId }) => {
       toast.success('Comment created successfully');
       console.log(res);
       setComment('');
+      setComments([res.data, ...comments]);
     } catch (error) {
       toast.err(error?.response?.data?.message || 'Something went wrong');
     }
@@ -42,7 +62,6 @@ const Comment = ({ postId }) => {
               <Link
                 className="text-xs text-teal-500 hover:underline "
                 to={'/dashboard?tab=profile'}
-                n
               >
                 @{currentUser.username}
               </Link>
@@ -83,6 +102,25 @@ const Comment = ({ postId }) => {
             </Button>
           </div>
         </form>
+      )}
+      {comments.length === 0 ? (
+        <div>
+          <p className="text-sm text-slate-500 mt-5">
+            No comments yet. Be the first to comment!
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="flex items-center gap-1 p-2 mt-2 ">
+            <p className="text-sm">Comments</p>
+            <div className="border border-gray-400 h-6 w-6 text-center">
+              {comments.length}
+            </div>
+          </div>
+          {comments.map((comment) => (
+            <Comments comment={comment} key={comment._id} />
+          ))}
+        </>
       )}
     </div>
   );
