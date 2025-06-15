@@ -1,18 +1,18 @@
 import { Button, Textarea } from 'flowbite-react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 import Comments from './Comments';
 
-const Comment = ({ postId }) => {
+const CommentSection = ({ postId }) => {
   const { currentUser } = useSelector((state) => state.user);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
+  const navigate = useNavigate();
 
-  console.log(comments);
   useEffect(() => {
     const getComments = async () => {
       try {
@@ -26,6 +26,31 @@ const Comment = ({ postId }) => {
     };
     getComments();
   }, [postId]);
+
+  const handleLikeComment = async (commentId) => {
+    if (!currentUser) {
+      navigate('/sign-in');
+      return;
+    }
+    try {
+      const res = await axios.put(`/api/v1/comment/likeComment/${commentId}`);
+      setComments(
+        comments.map((comment) =>
+          comment._id === commentId
+            ? {
+                ...comment,
+                likes: Array.isArray(res.data.likes) ? res.data.likes : [],
+                numberOfLikes: Array.isArray(res.data.likes)
+                  ? res.data.likes.length
+                  : 0,
+              }
+            : comment
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -118,11 +143,15 @@ const Comment = ({ postId }) => {
             </div>
           </div>
           {comments.map((comment) => (
-            <Comments comment={comment} key={comment._id} />
+            <Comments
+              comment={comment}
+              key={comment._id}
+              onLike={handleLikeComment}
+            />
           ))}
         </>
       )}
     </div>
   );
 };
-export default Comment;
+export default CommentSection;

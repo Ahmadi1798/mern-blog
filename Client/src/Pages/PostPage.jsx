@@ -6,7 +6,7 @@ import { Button, Spinner } from 'flowbite-react';
 import Prism from 'prismjs';
 import 'prismjs/themes/prism-tomorrow.css'; // Make sure this matches your import
 import CTA from '../Components/CTA';
-import Comment from '../Components/Comment';
+import CommentSection from '../Components/CommentSection';
 
 const PostPage = () => {
   const { slug } = useParams();
@@ -73,7 +73,7 @@ const PostPage = () => {
       ></div>
       <div>
         <CTA />
-        <Comment postId={post?._id} />
+        <CommentSection postId={post?._id} />
       </div>
     </main>
   );
