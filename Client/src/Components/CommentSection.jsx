@@ -52,6 +52,14 @@ const CommentSection = ({ postId }) => {
     }
   };
 
+  const handleEdit = (comment, editedComment) => {
+    setComments(
+      comments.map((c) =>
+        c._id === comment._id ? { ...c, comment: editedComment } : c
+      )
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -71,7 +79,7 @@ const CommentSection = ({ postId }) => {
   };
 
   return (
-    <div className="max-w-2xl px-2 py-4 w-full">
+    <div className="max-w-2xl px-2 py-4 w-full mx-auto">
       <div className="flex items-start">
         {currentUser ? (
           <div className="flex items-center space-x-2">
@@ -147,6 +155,7 @@ const CommentSection = ({ postId }) => {
               comment={comment}
               key={comment._id}
               onLike={handleLikeComment}
+              onEdit={handleEdit}
             />
           ))}
         </>
