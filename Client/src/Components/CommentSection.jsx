@@ -6,11 +6,15 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 import Comments from './Comments';
+import { Modal, ModalHeader, ModalBody } from 'flowbite-react';
+import { MdDelete } from 'react-icons/md';
 
 const CommentSection = ({ postId }) => {
   const { currentUser } = useSelector((state) => state.user);
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState([]);
+  const [commentToDelete, setCommentToDelete] = useState(null);
+  const [showModel, setShowModel] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,6 +77,23 @@ const CommentSection = ({ postId }) => {
       console.log(res);
       setComment('');
       setComments([res.data, ...comments]);
+    } catch (error) {
+      toast.err(error?.response?.data?.message || 'Something went wrong');
+    }
+  };
+
+  const handleDeleteComment = async () => {
+    try {
+      if (!currentUser) {
+        navigate('/sign-in');
+        return;
+      }
+      await axios.delete(`/api/v1/comment/deleteComment/${commentToDelete}`);
+      setShowModel(false);
+      setComments(
+        comments.filter((comment) => comment._id !== commentToDelete)
+      );
+      toast.success('Comment deleted successfully');
     } catch (error) {
       toast.err(error?.response?.data?.message || 'Something went wrong');
     }
@@ -156,10 +177,47 @@ const CommentSection = ({ postId }) => {
               key={comment._id}
               onLike={handleLikeComment}
               onEdit={handleEdit}
+              onDelete={(commentId) => {
+                setCommentToDelete(commentId);
+                setShowModel(true);
+              }}
             />
           ))}
         </>
       )}
+      <Modal show={showModel} onClose={() => setShowModel(false)}>
+        <ModalHeader />
+        <ModalBody className="max-w-2xl">
+          <div className="flex flex-col items-center gap-5">
+            <div className="flex flex-row items-center space-x-2">
+              <MdDelete className="text-red-600 text-3xl" size={50} />
+            </div>
+            <h2 className="text-sm text-slate-600  tracking-wide font-semibold">
+              Are you sure you want to delete this Comment?
+            </h2>
+            <div className="flex flex-row space-x-4 mt-3 ">
+              <Button
+                color="red"
+                outline
+                onClick={handleDeleteComment}
+                size="sm"
+              >
+                Yes, Delete
+              </Button>
+              <Button
+                size="sm"
+                color="gray"
+                outline
+                onClick={() => {
+                  setShowModel(false);
+                }}
+              >
+                No, Cancel
+              </Button>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
     </div>
   );
 };

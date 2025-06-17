@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { Button, Textarea } from 'flowbite-react';
 import { toast } from 'react-toastify';
 
-const Comments = ({ comment, onLike, onEdit }) => {
+const Comments = ({ comment, onLike, onEdit, onDelete }) => {
   const { currentUser } = useSelector((state) => state.user);
   const [user, setUser] = useState({});
   const [showEditingComment, setShowEditingComment] = useState(false);
@@ -110,18 +110,30 @@ const Comments = ({ comment, onLike, onEdit }) => {
               </p>
               {currentUser &&
                 (currentUser._id === comment.userId || currentUser.isAdmin) && (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      // Handle edit comment logic here
-                      setShowEditingComment(true);
-                      setEditedComment(comment.comment);
-                    }}
-                    className=" text-xs
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        // Handle edit comment logic here
+                        setShowEditingComment(true);
+                        setEditedComment(comment.comment);
+                      }}
+                      className=" text-xs
                 text-gray-400 hover:text-blue-500 cursor-pointer"
-                  >
-                    Edit
-                  </button>
+                    >
+                      Edit
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onDelete(comment._id);
+                      }}
+                      className=" text-xs
+                text-red-500 hover:text-red-600 cursor-pointer"
+                    >
+                      Delete
+                    </button>
+                  </>
                 )}
             </div>
           </>
