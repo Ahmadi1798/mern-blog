@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../Redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 const GAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,13 +29,14 @@ const GAuth = () => {
         navigate('/');
       }
     } catch (error) {
-      console.log(error);
+      let msg = error?.message || 'Google sign-in failed. Please try again.';
+      toast.error(msg);
     }
   };
   return (
     <Button
       outline
-      className="cursor-pointer"
+      className="cursor-pointer w-full"
       type="button"
       color="gray"
       onClick={handleGoogleClick}

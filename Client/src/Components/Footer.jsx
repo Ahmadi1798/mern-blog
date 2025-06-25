@@ -2,61 +2,98 @@ import {
   Footer,
   FooterCopyright,
   FooterDivider,
-  FooterIcon,
   FooterLink,
   FooterLinkGroup,
   FooterTitle,
 } from 'flowbite-react';
-import {
-  BsDribbble,
-  BsFacebook,
-  BsGithub,
-  BsInstagram,
-  BsTwitter,
-} from 'react-icons/bs';
-import logo from '../assets/images/logo.png';
+import { BsGithub, BsTwitter } from 'react-icons/bs';
 
 const FooterComponent = () => {
   return (
-    <Footer container className="bg-gray-100">
-      <div className="w-full px-6 md:px-16">
-        <div className="grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1 py-5">
-          <div>
-            <img src={logo} className="w-32" alt="" />
+    <Footer
+      container
+      className="bg-gradient-to-b from-blue-50 via-white to-purple-50 dark:from-zinc-900 dark:via-zinc-800 dark:to-zinc-900 border-t border-slate-200 dark:border-zinc-800 rounded-none shadow-inner transition-all duration-300"
+    >
+      <div className="w-full px-4 md:px-16">
+        <div className="flex flex-col md:flex-row md:justify-between items-center py-8 gap-8">
+          <div className="flex flex-col items-center md:items-start">
+            <span className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight mb-2">
+              MERN Blog
+            </span>
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              © {new Date().getFullYear()} MERN Blog. All rights reserved.
+            </span>
           </div>
-          <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-2 sm:gap-12">
             <div>
-              <FooterTitle title="about" />
+              <FooterTitle
+                title="Quick Links"
+                className="uppercase tracking-wide"
+              />
               <FooterLinkGroup col>
-                <FooterLink href="#">Flowbite</FooterLink>
-                <FooterLink href="#">Tailwind CSS</FooterLink>
+                <FooterLink
+                  href="/"
+                  className="hover:text-teal-600 transition-colors duration-150"
+                >
+                  Home
+                </FooterLink>
+                <FooterLink
+                  href="/about"
+                  className="hover:text-teal-600 transition-colors duration-150"
+                >
+                  About
+                </FooterLink>
+                <FooterLink
+                  href="/contact"
+                  className="hover:text-teal-600 transition-colors duration-150"
+                >
+                  Contact
+                </FooterLink>
               </FooterLinkGroup>
             </div>
             <div>
-              <FooterTitle title="Follow us" />
+              <FooterTitle title="Legal" className="uppercase tracking-wide" />
               <FooterLinkGroup col>
-                <FooterLink href="#">Github</FooterLink>
-                <FooterLink href="#">Discord</FooterLink>
-              </FooterLinkGroup>
-            </div>
-            <div>
-              <FooterTitle title="Legal" />
-              <FooterLinkGroup col>
-                <FooterLink href="#">Privacy Policy</FooterLink>
-                <FooterLink href="#">Terms &amp; Conditions</FooterLink>
+                <FooterLink
+                  href="#"
+                  className="hover:text-teal-600 transition-colors duration-150"
+                >
+                  Privacy Policy
+                </FooterLink>
+                <FooterLink
+                  href="#"
+                  className="hover:text-teal-600 transition-colors duration-150"
+                >
+                  Terms &amp; Conditions
+                </FooterLink>
               </FooterLinkGroup>
             </div>
           </div>
         </div>
         <FooterDivider />
-        <div className="w-full sm:flex sm:items-center sm:justify-between">
-          <FooterCopyright href="#" by="Daily.Dev™" year={2025} />
-          <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
-            <FooterIcon href="#" icon={BsFacebook} />
-            <FooterIcon href="#" icon={BsInstagram} />
-            <FooterIcon href="#" icon={BsTwitter} />
-            <FooterIcon href="#" icon={BsGithub} />
-            <FooterIcon href="#" icon={BsDribbble} />
+        <div className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between py-4">
+          <span className="text-xs text-zinc-500 dark:text-zinc-400 text-center sm:text-left">
+            Built with ❤️ using MERN Stack
+          </span>
+          <div className="mt-4 sm:mt-0 flex space-x-6 justify-center">
+            <a
+              href="https://github.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-500 hover:text-zinc-900 dark:hover:text-white transition-colors duration-150"
+              aria-label="GitHub"
+            >
+              <BsGithub size={20} />
+            </a>
+            <a
+              href="https://twitter.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-zinc-500 hover:text-sky-400 transition-colors duration-150"
+              aria-label="Twitter"
+            >
+              <BsTwitter size={20} />
+            </a>
           </div>
         </div>
       </div>

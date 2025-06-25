@@ -14,7 +14,6 @@ createRoot(document.getElementById('root')).render(
       <ThemeProvider>
         <App />
       </ThemeProvider>
-
       <ToastContainer
         position="top-center"
         autoClose={5000}

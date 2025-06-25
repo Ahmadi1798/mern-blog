@@ -15,9 +15,9 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { MdDelete } from 'react-icons/md';
-import { FaTimes, FaCheck } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Animation variants
 const containerVariants = {
   hidden: { opacity: 0, y: 40 },
   visible: {
@@ -45,56 +45,51 @@ const fadeUp = {
   }),
 };
 
-const Users = () => {
+const DashComments = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const [showMoreUsers, setShowMoreUsers] = useState(true);
-  const [users, setUsers] = useState([]);
+  const [showMorecomments, setShowMorecomments] = useState(true);
+  const [comments, setComments] = useState([]);
   const [showModel, setShowModel] = useState(false);
-  const [userId, setUserId] = useState('');
+  const [commentId, setCommentId] = useState('');
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchComments = async () => {
       try {
-        const res = await axios.get(`/api/v1/auth/getUsers`);
-        if (res.data.users.length < 9) {
-          setShowMoreUsers(false);
+        const res = await axios.get(`/api/v1/comment/getcomments`);
+        if (res.data.comments.length < 9) {
+          setShowMorecomments(false);
         }
-        setUsers(res.data.users);
+        setComments(res.data.comments);
       } catch (error) {
         toast.error(error?.response?.data?.message || 'Something went wrong');
       }
     };
     if (currentUser.isAdmin) {
-      fetchUsers();
+      fetchComments();
     }
   }, [currentUser._id, currentUser.isAdmin]);
 
   const handleShowMore = async () => {
-    const startIndex = users.length;
+    const startIndex = comments.length;
     try {
       const res = await axios.get(
-        `/api/v1/auth/getUsers?&startIndex=${startIndex}`
+        `/api/v1/comment/getcomments?&startIndex=${startIndex}`
       );
-      if (res.data.users.length < 9) {
-        setShowMoreUsers(false);
+      if (res.data.comments.length < 9) {
+        setShowMorecomments(false);
       }
-      // Filter duplicates just in case
-      setUsers((prev) =>
-        [...prev, ...res.data.users].filter(
-          (user, idx, arr) => arr.findIndex((u) => u._id === user._id) === idx
-        )
-      );
+      setComments([...comments, ...res.data.comments]);
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Something went wrong');
     }
   };
 
-  const handleDeleteUser = async () => {
+  const handleDeleteComment = async () => {
     setShowModel(false);
     try {
-      await axios.delete(`/api/v1/auth/delete/${userId}`);
-      toast.success('User deleted successfully');
-      setUsers(users.filter((user) => user._id !== userId));
+      await axios.delete(`/api/v1/comment/deleteComment/${commentId}`);
+      toast.success('Comment deleted successfully');
+      setComments(comments.filter((comment) => comment._id !== commentId));
     } catch (error) {
       toast.error(error?.response?.data?.message || 'Something went wrong');
     }
@@ -107,7 +102,7 @@ const Users = () => {
       variants={containerVariants}
       className="w-full max-w-5xl mx-auto p-2 md:p-6"
     >
-      {currentUser.isAdmin && users.length > 0 ? (
+      {currentUser.isAdmin && comments.length > 0 ? (
         <>
           <motion.div
             variants={fadeUp}
@@ -118,19 +113,19 @@ const Users = () => {
               <TableHead>
                 <TableRow className="bg-gradient-to-r from-blue-100 via-purple-50 to-purple-100 dark:from-zinc-800 dark:via-zinc-900 dark:to-zinc-800">
                   <TableHeadCell className="text-xs md:text-sm font-bold uppercase tracking-wider py-3">
-                    Date Created
+                    Date Updated
                   </TableHeadCell>
                   <TableHeadCell className="text-xs md:text-sm font-bold uppercase tracking-wider py-3">
-                    User Image
+                    Comment
                   </TableHeadCell>
                   <TableHeadCell className="text-xs md:text-sm font-bold uppercase tracking-wider py-3">
-                    Username
+                    Likes
                   </TableHeadCell>
                   <TableHeadCell className="text-xs md:text-sm font-bold uppercase tracking-wider py-3">
-                    Email
+                    Post ID
                   </TableHeadCell>
                   <TableHeadCell className="text-xs md:text-sm font-bold uppercase tracking-wider py-3">
-                    Admin
+                    User ID
                   </TableHeadCell>
                   <TableHeadCell className="text-xs md:text-sm font-bold uppercase tracking-wider py-3">
                     Delete
@@ -139,9 +134,9 @@ const Users = () => {
               </TableHead>
               <TableBody>
                 <AnimatePresence>
-                  {users.map((user, idx) => (
+                  {comments.map((comment, idx) => (
                     <motion.tr
-                      key={user._id}
+                      key={comment._id}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 20 }}
@@ -153,44 +148,36 @@ const Users = () => {
                       className="border-b dark:border-zinc-700 border-zinc-200 transition hover:bg-blue-50 dark:hover:bg-zinc-800 group"
                     >
                       <TableCell className="text-xs md:text-sm text-zinc-600 dark:text-zinc-300">
-                        {new Date(user.updatedAt).toLocaleDateString()}
+                        {new Date(comment.updatedAt).toLocaleDateString()}
                       </TableCell>
                       <TableCell>
-                        <img
-                          src={user.profilePicture}
-                          className="w-10 h-10 object-cover rounded-full border-2 border-blue-200 dark:border-zinc-700 shadow-sm group-hover:scale-105 transition-transform duration-200"
-                          alt={user.username}
-                        />
-                      </TableCell>
-                      <TableCell>
-                        <span className="min-w-[120px] md:min-w-[200px] block truncate font-semibold text-zinc-800 dark:text-zinc-100">
-                          {user.username}
+                        <span className="block max-w-[200px] md:max-w-xs truncate text-zinc-800 dark:text-zinc-100">
+                          {comment.comment}
                         </span>
                       </TableCell>
-                      <TableCell className="text-xs md:text-sm text-zinc-700 dark:text-zinc-200">
-                        <span className="block truncate">{user.email}</span>
+                      <TableCell>
+                        <span className="font-semibold text-purple-700 dark:text-purple-300">
+                          {comment.numberOfLikes}
+                        </span>
                       </TableCell>
                       <TableCell>
-                        {user.isAdmin ? (
-                          <FaCheck
-                            className="text-green-500 text-lg mx-auto"
-                            title="Admin"
-                          />
-                        ) : (
-                          <FaTimes
-                            className="text-red-500 text-lg mx-auto"
-                            title="Not Admin"
-                          />
-                        )}
+                        <span className="block max-w-[120px] truncate text-blue-700 dark:text-blue-300">
+                          {comment.postId}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <span className="block max-w-[120px] truncate text-zinc-700 dark:text-zinc-200">
+                          {comment.userId}
+                        </span>
                       </TableCell>
                       <TableCell>
                         <motion.button
                           onClick={() => {
                             setShowModel(true);
-                            setUserId(user._id);
+                            setCommentId(comment._id);
                           }}
                           className="flex items-center gap-1 text-red-500 font-medium hover:underline hover:text-red-700 dark:hover:text-red-300 transition-colors duration-200 cursor-pointer"
-                          aria-label="Delete user"
+                          aria-label="Delete comment"
                           whileHover={{ scale: 1.07 }}
                           whileTap={{ scale: 0.97 }}
                         >
@@ -204,7 +191,7 @@ const Users = () => {
               </TableBody>
             </Table>
           </motion.div>
-          {showMoreUsers && (
+          {showMorecomments && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -230,11 +217,11 @@ const Users = () => {
           className="flex flex-col items-center justify-center min-h-[200px]"
         >
           <h2 className="text-center font-semibold text-xl md:text-3xl text-zinc-700 dark:text-zinc-200 mb-2">
-            There Is No User Available
+            There Is No Comment Available
           </h2>
           <img
-            src="https://cdn-icons-png.flaticon.com/512/6596/6596121.png"
-            alt="No users"
+            src="https://cdn-icons-png.flaticon.com/512/5948/5948565.png"
+            alt="No comments"
             className="w-24 h-24 opacity-60"
           />
         </motion.div>
@@ -242,24 +229,18 @@ const Users = () => {
       <Modal show={showModel} onClose={() => setShowModel(false)}>
         <ModalHeader>
           <span className="text-lg font-semibold text-red-600 flex items-center gap-2">
-            <MdDelete className="text-2xl" /> Delete User
+            <MdDelete className="text-2xl" /> Delete Comment
           </span>
         </ModalHeader>
         <ModalBody className="max-w-2xl">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.3 }}
-            className="flex flex-col items-center gap-5"
-          >
+          <div className="flex flex-col items-center gap-5">
             <h2 className="text-base text-slate-700 dark:text-slate-200 tracking-wide font-semibold text-center">
-              Are you sure you want to delete this user?
+              Are you sure you want to delete this comment?
             </h2>
             <div className="flex flex-row space-x-4 mt-3">
               <Button
                 color="failure"
-                onClick={handleDeleteUser}
+                onClick={handleDeleteComment}
                 className="transition-transform duration-150 hover:scale-105"
                 as={motion.button}
                 whileHover={{ scale: 1.04 }}
@@ -278,11 +259,11 @@ const Users = () => {
                 No, Cancel
               </Button>
             </div>
-          </motion.div>
+          </div>
         </ModalBody>
       </Modal>
     </motion.div>
   );
 };
 
-export default Users;
+export default DashComments;

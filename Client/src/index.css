@@ -6,9 +6,7 @@
 @import 'prismjs/themes/prism-tomorrow.css';
 /* Or any Prism theme you like */
 
-active {
-    @apply bg-neutral-700;
-}
+
 
 @layer base {
     html {
