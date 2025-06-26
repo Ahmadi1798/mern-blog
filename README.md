@@ -160,39 +160,40 @@ The app will be available at [http://localhost:5173](http://localhost:5173) (or 
 
 ```
 MERN Blog/
-├── Client/
+├── Client/                  # Frontend (React)
 │   ├── public/
 │   └── src/
 │       ├── assets/
-│       ├── Components/
-│       ├── firebase/           # Firebase config & hooks
+│       ├── components/
+│       ├── firebase/        # Firebase config & hooks
 │       ├── pages/
-│       ├── Redux/
+│       ├── redux/
 │       ├── App.jsx
 │       ├── main.jsx
 │       └── ...
-├── Controllers/
-│   ├── commentController.js
-│   ├── postController.js
-│   └── userController.js
-├── Middleware/
-│   └── ...
-├── Models/
-│   ├── Comment.js
-│   ├── Post.js
-│   └── User.js
-├── Routes/
-│   ├── authRoutes.js
-│   ├── commentRoutes.js
-│   ├── postRoutes.js
-│   └── userRoutes.js
-├── Server/
-│   ├── server.js
-│   └── ...
-├── .env
-├── package.json
-└── README.md
-```
+│   ├── .env                 # Frontend environment variables
+│   └── package.json
+├── Server/                  # Backend (Node/Express)
+│   ├── Controllers/
+│   │   ├── commentController.js
+│   │   ├── postController.js
+│   │   └── userController.js
+│   ├── Middleware/
+│   ├── Models/
+│   │   ├── Comment.js
+│   │   ├── Post.js
+│   │   └── User.js
+│   ├── Routes/
+│   │   ├── authRoutes.js
+│   │   ├── commentRoutes.js
+│   │   ├── postRoutes.js
+│   │   └── userRoutes.js
+│   ├── config/              # Backend config (e.g., firebase-service-account.json)
+│   ├── .env                 # Backend environment variables
+│   ├── index.js             # Backend entry point
+│   └── package.json
+├── README.md
+└──
 
 ---
 
@@ -244,7 +245,7 @@ MERN Blog/
 
 ## 🚀 Deployment
 
-You can deploy the app using services like **Vercel**, **Netlify** (frontend), and **Render**, **Heroku**, or **Railway** (backend).  
+You can deploy the app using services like **Vercel**, **Netlify** (frontend), and **Render**, **Heroku**, or **Railway** (backend).
 Set environment variables in your deployment dashboard.
 
 ---
@@ -274,3 +275,4 @@ This project is licensed under the MIT License.
 ---
 
 > _Feel free to open issues or submit pull requests!_
+```
