@@ -9,6 +9,7 @@ Users can register, log in (including Google login), verify email, reset passwor
 ## 📑 Table of Contents
 
 - [✨ Features](#-features)
+- [🖼️ Screenshots](#-screenshots)
 - [🛠️ Tech Stack](#-tech-stack)
 - [⚡ Getting Started](#-getting-started)
 - [📁 Project Structure](#-project-structure)
@@ -39,6 +40,33 @@ Users can register, log in (including Google login), verify email, reset passwor
 
 ---
 
+## 🖼️ Screenshots
+
+Here are some screenshots of the MERN Blog Application:
+
+<p align="center">
+  <img src="screenshots/home-screenshot.png" alt="Home Page" width="700"/>
+</p>
+<p align="center">
+  <img src="screenshots/dashboard-screenshot.png" alt="Admin Dashboard" width="700"/>
+</p>
+<p align="center">
+  <img src="screenshots/search-screenshot.png" alt="Search " width="700"/>
+</p>
+<p align="center">
+  <img src="screenshots/posts-screenshot.png" alt="Recent Posts " width="700"/>
+</p>
+<p align="center">
+  <img src="screenshots/post-screenshot.png" alt="Post page " width="700"/>
+</p>
+<p align="center">
+  <img src="screenshots/comment-screenshot.png" alt="Comment Section " width="700"/>
+</p>
+
+<!-- Add more screenshots as needed. Place your images in a 'screenshots' folder in your repo root or update the paths accordingly. -->
+
+---
+
 ## 🛠️ Tech Stack
 
 ### Frontend
@@ -59,7 +87,7 @@ Users can register, log in (including Google login), verify email, reset passwor
 - ![JWT](https://img.shields.io/badge/JWT-black?style=flat&logo=JSON%20web%20tokens) **JWT** (session management)
 - ![Multer](https://img.shields.io/badge/Multer-FFCC00?style=flat) **Multer**
 - ![Cloudinary](https://img.shields.io/badge/Cloudinary-3448C5?style=flat&logo=cloudinary&logoColor=white) **Cloudinary** or local storage
-- ![CORS](https://img.shields.io/badge/CORS-0052CC?style=flat) **CORS**, **Helmet**
+- ![Helmet](https://img.shields.io/badge/Helmet-000000?style=flat) **Helmet**
 
 ---
 
