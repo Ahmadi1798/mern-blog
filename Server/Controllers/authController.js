@@ -1,7 +1,10 @@
 import admin from '../utils/firebaseAdmin.js';
 import User from '../Models/userModel.js';
 import bcrypt from 'bcryptjs';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0a82bf1ffef487feedea416fac08073413568472
 import { errorHandler } from '../utils/error.js';
 import jwt from 'jsonwebtoken';
 

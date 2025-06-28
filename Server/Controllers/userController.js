@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import User from '../Models/userModel.js';
 
+=======
+
+
+import User from '../Models/userModel.js';
+>>>>>>> 0a82bf1ffef487feedea416fac08073413568472
 import { errorHandler } from '../utils/error.js';
 import bcrypt from 'bcryptjs';
 export const userController = (req, res) => {
