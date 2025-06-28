@@ -1,5 +1,4 @@
 import admin from '../utils/firebaseAdmin.js';
-import { User } from '../Models/userModel.js';
 import User from '../Models/userModel.js';
 import bcrypt from 'bcryptjs';
 import { errorHandler } from '../utils/error.js';
