@@ -1,13 +1,12 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import userRoute from './Routes/userRoute.js';
 import authRoute from './Routes/authRoutes.js';
 import uploadImageRoute from './Routes/uploadImageRoutes.js';
 import postRoutes from './Routes/postRoutes.js';
 import commentRoutes from './Routes/CommentRoutes.js';
 import cookieParser from 'cookie-parser';
-dotenv.config();
+
 const app = express();
 const port = 3000;
 app.use(express.json());
