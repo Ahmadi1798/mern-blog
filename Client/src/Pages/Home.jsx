@@ -9,6 +9,7 @@ import CTA from '../Components/CTA';
 import { useSelector } from 'react-redux';
 import projects from '../../utils/projects';
 import { motion } from 'framer-motion';
+import { API_BASE_URL } from '../../utils/api';
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 60 },
@@ -40,7 +41,9 @@ const Home = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await axios.get(`/api/v1/posts/getPosts?pageSize=6`);
+        const res = await axios.get(
+          `${API_BASE_URL}/posts/getPosts?pageSize=6`
+        );
         setPosts(res.data.posts);
       } catch (error) {
         toast.error(error?.response?.data?.message || 'Something went wrong');
