@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> d4129a1ce6746b7ac153686ffc262a6a66f1d936
 import User from '../Models/userModel.js';
 import { errorHandler } from '../utils/error.js';
 import bcrypt from 'bcryptjs';
