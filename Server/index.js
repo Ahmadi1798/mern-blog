@@ -14,7 +14,11 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 const port = 3000;
-app.use(cors());
+app.use(
+  cors({
+    credentials: true, // allow cookies to be sent
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

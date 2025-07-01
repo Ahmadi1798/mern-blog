@@ -30,7 +30,9 @@ const Comments = ({ comment, onLike, onEdit, onDelete, index = 0 }) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/auth/${comment.userId}`);
+        const res = await axios.get(`${API_BASE_URL}/auth/${comment.userId}`, {
+          withCredentials: true,
+        });
         setUser(res.data);
       } catch (error) {
         setUser({

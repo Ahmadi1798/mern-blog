@@ -37,6 +37,8 @@ export const login = async (req, res, next) => {
       .status(200)
       .cookie('access_token', token, {
         httpOnly: true,
+        secure: true, // only over https
+        sameSite: 'none', // allow cross-site
         maxAge: 24 * 60 * 60 * 1000,
       })
       .json(userData);
@@ -65,6 +67,8 @@ export const googleAuth = async (req, res, next) => {
       .status(200)
       .cookie('access_token', token, {
         httpOnly: true,
+        secure: true, // only over https
+        sameSite: 'none', // allow cross-site
         maxAge: 24 * 60 * 60 * 1000,
       })
       .json(userData);

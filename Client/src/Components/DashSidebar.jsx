@@ -32,7 +32,13 @@ const DashSidebar = () => {
 
   const handleLogoutUser = async () => {
     try {
-      await axios.post(`${API_BASE_URL}/auth/logout`);
+      await axios.post(
+        `${API_BASE_URL}/auth/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
       toast.success('User logged out Successfully');
       dispatch(logout());
     } catch (error) {

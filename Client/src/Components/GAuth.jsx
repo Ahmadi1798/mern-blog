@@ -19,11 +19,17 @@ const GAuth = () => {
     });
     try {
       const resultFromGoogle = await signInWithPopup(auth, provider);
-      const res = await axios.post(`${API_BASE_URL}/auth/google`, {
-        name: resultFromGoogle.user.displayName,
-        email: resultFromGoogle.user.email,
-        image: resultFromGoogle.user.photoURL,
-      });
+      const res = await axios.post(
+        `${API_BASE_URL}/auth/google`,
+        {
+          name: resultFromGoogle.user.displayName,
+          email: resultFromGoogle.user.email,
+          image: resultFromGoogle.user.photoURL,
+        },
+        {
+          withCredentials: true, // Ensure cookies are sent with the request
+        }
+      );
       if (res.status === 200) {
         const data = await res.data;
         dispatch(loginSuccess(data));

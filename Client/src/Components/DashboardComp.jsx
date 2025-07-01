@@ -57,12 +57,18 @@ const DashboardComp = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/auth/getUsers?pageSize=5`);
+        const res = await axios.get(
+          `${API_BASE_URL}/auth/getUsers?pageSize=5`,
+          {
+            withCredentials: true,
+          }
+        );
         setUsers(res.data.users);
         setTotalUsers(res.data.totalUsers);
         setLastMonthUsers(res.data.lastMonthUsers);
       } catch (error) {
         toast.error(error?.response?.data?.message || 'Something went wrong');
+        console.log(error);
       }
     };
     const fetchPosts = async () => {
@@ -80,13 +86,15 @@ const DashboardComp = () => {
     const fetchComments = async () => {
       try {
         const res = await axios.get(
-          `${API_BASE_URL}/comment/getComments?pageSize=5`
+          `${API_BASE_URL}/comment/getComments?pageSize=5`,
+          { withCredentials: true }
         );
         setComments(res.data.comments);
         setTotalComments(res.data.totalComments);
         setLastMonthComments(res.data.lastMonthComments);
       } catch (error) {
         toast.error(error?.response?.data?.message || 'Something went wrong');
+        console.log(error);
       }
     };
 

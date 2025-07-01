@@ -120,7 +120,9 @@ const Profile = () => {
     setShowModel(false);
     try {
       dispatch(deleteUserStart());
-      await axios.delete(`${API_BASE_URL}/auth/delete/${currentUser._id}`);
+      await axios.delete(`${API_BASE_URL}/auth/delete/${currentUser._id}`, {
+        withCredentials: true,
+      });
       dispatch(deleteUserSuccess());
       toast.success('Successfully Deleted');
     } catch (error) {
@@ -131,7 +133,13 @@ const Profile = () => {
 
   const handleLogoutUser = async () => {
     try {
-      await axios.post(`${API_BASE_URL}/auth/logout`);
+      await axios.post(
+        `${API_BASE_URL}/auth/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
       toast.success('User logged out Successfully');
       dispatch(logout());
     } catch (error) {

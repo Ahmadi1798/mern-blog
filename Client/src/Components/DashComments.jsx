@@ -56,7 +56,9 @@ const DashComments = () => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/comment/getcomments`);
+        const res = await axios.get(`${API_BASE_URL}/comment/getcomments`, {
+          withCredentials: true,
+        });
         if (res.data.comments.length < 9) {
           setShowMorecomments(false);
         }
