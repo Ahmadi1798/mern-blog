@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { MdDelete } from 'react-icons/md';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_BASE_URL } from '../../utils/api';
 
 // Animation variants
 const containerVariants = {
@@ -55,7 +56,7 @@ const DashComments = () => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`/api/v1/comment/getcomments`);
+        const res = await axios.get(`${API_BASE_URL}/comment/getcomments`);
         if (res.data.comments.length < 9) {
           setShowMorecomments(false);
         }
@@ -73,7 +74,7 @@ const DashComments = () => {
     const startIndex = comments.length;
     try {
       const res = await axios.get(
-        `/api/v1/comment/getcomments?&startIndex=${startIndex}`
+        `${API_BASE_URL}/comment/getcomments?&startIndex=${startIndex}`
       );
       if (res.data.comments.length < 9) {
         setShowMorecomments(false);
@@ -87,7 +88,7 @@ const DashComments = () => {
   const handleDeleteComment = async () => {
     setShowModel(false);
     try {
-      await axios.delete(`/api/v1/comment/deleteComment/${commentId}`);
+      await axios.delete(`${API_BASE_URL}/comment/deleteComment/${commentId}`);
       toast.success('Comment deleted successfully');
       setComments(comments.filter((comment) => comment._id !== commentId));
     } catch (error) {

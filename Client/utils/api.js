@@ -1,1 +1,1 @@
-export const API_BASE_URL = 'https://mern-blog-ru5s.onrender.com/api/v1';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;

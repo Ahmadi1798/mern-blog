@@ -5,6 +5,7 @@ import { FaThumbsUp } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 import { Button, Textarea } from 'flowbite-react';
 import { toast } from 'react-toastify';
+import { API_BASE_URL } from '../../utils/api';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const fadeUp = {
@@ -29,7 +30,7 @@ const Comments = ({ comment, onLike, onEdit, onDelete, index = 0 }) => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await axios.get(`/api/v1/auth/${comment.userId}`);
+        const res = await axios.get(`${API_BASE_URL}/auth/${comment.userId}`);
         setUser(res.data);
       } catch (error) {
         setUser({
@@ -43,7 +44,7 @@ const Comments = ({ comment, onLike, onEdit, onDelete, index = 0 }) => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`/api/v1/comment/editComment/${comment._id}`, {
+      await axios.put(`${API_BASE_URL}/comment/editComment/${comment._id}`, {
         comment: editedComment,
       });
       setShowEditingComment(false);

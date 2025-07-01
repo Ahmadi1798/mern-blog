@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../Redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { API_BASE_URL } from '../../utils/api';
 const GAuth = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ const GAuth = () => {
     });
     try {
       const resultFromGoogle = await signInWithPopup(auth, provider);
-      const res = await axios.post('/api/v1/auth/google', {
+      const res = await axios.post(`${API_BASE_URL}/auth/google`, {
         name: resultFromGoogle.user.displayName,
         email: resultFromGoogle.user.email,
         image: resultFromGoogle.user.photoURL,

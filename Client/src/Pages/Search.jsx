@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { TextInput, Button, Select, Spinner } from 'flowbite-react';
 import axios from 'axios';
+import { API_BASE_URL } from '../../utils/api';
 import { toast } from 'react-toastify';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -86,7 +87,7 @@ const Search = () => {
       params.append('page', pageNum);
 
       const res = await axios.get(
-        `/api/v1/posts/getposts?${params.toString()}`
+        `${API_BASE_URL}/posts/getposts?${params.toString()}`
       );
       const data = Array.isArray(res.data.posts) ? res.data.posts : [];
       setPosts(reset ? data : [...posts, ...data]);

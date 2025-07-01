@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
+import { API_BASE_URL } from '../../utils/api';
 
 // Animation variants
 const containerVariants = {
@@ -49,7 +50,9 @@ const UpdatePost = () => {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const res = await axios.get(`/api/v1/posts/getPosts?postId=${postId}`);
+        const res = await axios.get(
+          `${API_BASE_URL}/posts/getPosts?postId=${postId}`
+        );
         setPostFormData(res.data.posts[0]);
         setImageUrl(res.data.posts[0].image);
         toast.success('Success');
@@ -70,7 +73,7 @@ const UpdatePost = () => {
       const formData = new FormData();
       formData.append('image', file);
       formData.append('folder', 'post_images');
-      const res = await axios.post('/api/v1/upload', formData, {
+      const res = await axios.post(`${API_BASE_URL}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -89,7 +92,7 @@ const UpdatePost = () => {
     setUpdating(true);
     try {
       const res = await axios.put(
-        `/api/v1/posts/updatePost/${postFormData._id}/${currentUser._id}`,
+        `${API_BASE_URL}/posts/updatePost/${postFormData._id}/${currentUser._id}`,
         postFormData
       );
       toast.success('Post Updated successfully');

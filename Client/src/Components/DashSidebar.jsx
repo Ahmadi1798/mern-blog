@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import { TfiComments } from 'react-icons/tfi';
 import { TbLayoutDashboardFilled } from 'react-icons/tb';
 import { FaRegUserCircle } from 'react-icons/fa';
+import { API_BASE_URL } from '../../utils/api';
 
 const DashSidebar = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -31,7 +32,7 @@ const DashSidebar = () => {
 
   const handleLogoutUser = async () => {
     try {
-      await axios.post('/api/v1/auth/logout');
+      await axios.post(`${API_BASE_URL}/auth/logout`);
       toast.success('User logged out Successfully');
       dispatch(logout());
     } catch (error) {

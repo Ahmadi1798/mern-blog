@@ -13,7 +13,7 @@ import {
 } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-
+import { API_BASE_URL } from '../../utils/api';
 // Animation variants
 const containerVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -57,7 +57,7 @@ const DashboardComp = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get(`/api/v1/auth/getUsers?pageSize=5`);
+        const res = await axios.get(`${API_BASE_URL}/auth/getUsers?pageSize=5`);
         setUsers(res.data.users);
         setTotalUsers(res.data.totalUsers);
         setLastMonthUsers(res.data.lastMonthUsers);
@@ -67,7 +67,9 @@ const DashboardComp = () => {
     };
     const fetchPosts = async () => {
       try {
-        const res = await axios.get(`/api/v1/posts/getPosts?pageSize=5`);
+        const res = await axios.get(
+          `${API_BASE_URL}/posts/getPosts?pageSize=5`
+        );
         setPosts(res.data.posts);
         setTotalPosts(res.data.totalPosts);
         setLastMonthPosts(res.data.lastMonthPosts);
@@ -77,7 +79,9 @@ const DashboardComp = () => {
     };
     const fetchComments = async () => {
       try {
-        const res = await axios.get(`/api/v1/comment/getComments?pageSize=5`);
+        const res = await axios.get(
+          `${API_BASE_URL}/comment/getComments?pageSize=5`
+        );
         setComments(res.data.comments);
         setTotalComments(res.data.totalComments);
         setLastMonthComments(res.data.lastMonthComments);

@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { MdDelete } from 'react-icons/md';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_BASE_URL } from '../../utils/api';
 
 // Animation variants
 const containerVariants = {
@@ -60,7 +61,7 @@ const Dashposts = () => {
     const fetchPosts = async () => {
       try {
         const res = await axios.get(
-          `/api/v1/posts/getPosts?userId=${currentUser._id}&page=1&pageSize=${PAGE_SIZE}`
+          `${API_BASE_URL}/posts/getPosts?userId=${currentUser._id}&page=1&pageSize=${PAGE_SIZE}`
         );
         if (res.data.posts.length < PAGE_SIZE) {
           setShowMorePosts(false);
@@ -79,7 +80,7 @@ const Dashposts = () => {
   const handleShowMore = async () => {
     try {
       const res = await axios.get(
-        `/api/v1/posts/getPosts?userId=${currentUser._id}&page=${page}&pageSize=${PAGE_SIZE}`
+        `${API_BASE_URL}/posts/getPosts?userId=${currentUser._id}&page=${page}&pageSize=${PAGE_SIZE}`
       );
       if (res.data.posts.length < PAGE_SIZE) {
         setShowMorePosts(false);
@@ -100,7 +101,7 @@ const Dashposts = () => {
     setShowModel(false);
     try {
       await axios.delete(
-        `/api/v1/posts/deletePost/${postId}/${currentUser._id}`
+        `${API_BASE_URL}/posts/deletePost/${postId}/${currentUser._id}`
       );
       toast.success('Post deleted successfully');
       setUserPosts(userPosts.filter((post) => post._id !== postId));

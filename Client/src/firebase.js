@@ -1,14 +1,12 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
-// Your web app's Firebase configuration
+
 const firebaseConfig = {
-  apiKey: 'AIzaSyD-mw-RaQeH318w2cYiqw-LyTiiryoSV6c',
-  authDomain: 'mern-blog-2a6fc.firebaseapp.com',
-  projectId: 'mern-blog-2a6fc',
-  storageBucket: 'mern-blog-2a6fc.firebasestorage.app',
-  messagingSenderId: '550666035177',
-  appId: '1:550666035177:web:ae6461f808d3702547f578',
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
 export const app = initializeApp(firebaseConfig);

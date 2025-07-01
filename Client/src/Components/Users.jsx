@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import { MdDelete } from 'react-icons/md';
 import { FaTimes, FaCheck } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_BASE_URL } from '../../utils/api';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -55,7 +56,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get(`/api/v1/auth/getUsers`);
+        const res = await axios.get(`${API_BASE_URL}/auth/getUsers`);
         if (res.data.users.length < 9) {
           setShowMoreUsers(false);
         }
@@ -73,7 +74,7 @@ const Users = () => {
     const startIndex = users.length;
     try {
       const res = await axios.get(
-        `/api/v1/auth/getUsers?&startIndex=${startIndex}`
+        `${API_BASE_URL}/auth/getUsers?&startIndex=${startIndex}`
       );
       if (res.data.users.length < 9) {
         setShowMoreUsers(false);
@@ -92,7 +93,7 @@ const Users = () => {
   const handleDeleteUser = async () => {
     setShowModel(false);
     try {
-      await axios.delete(`/api/v1/auth/delete/${userId}`);
+      await axios.delete(`${API_BASE_URL}/auth/delete/${userId}`);
       toast.success('User deleted successfully');
       setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {

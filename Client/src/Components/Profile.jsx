@@ -23,6 +23,7 @@ import { FaRegUserCircle } from 'react-icons/fa';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_BASE_URL } from '../../utils/api';
 
 const containerVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -83,7 +84,7 @@ const Profile = () => {
     try {
       dispatch(updateStart());
       const { data } = await axios.put(
-        `/api/v1/users/${currentUser._id}`,
+        `${API_BASE_URL}/users/${currentUser._id}`,
         formData
       );
       dispatch(updateSuccess(data.user));
@@ -100,12 +101,12 @@ const Profile = () => {
     imageData.append('image', file);
     imageData.append('folder', 'post_images');
     try {
-      const { data } = await axios.post('/api/v1/upload', imageData, {
+      const { data } = await axios.post(`${API_BASE_URL}/upload`, imageData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-      await axios.put(`/api/v1/users/${currentUser._id}`, {
+      await axios.put(`${API_BASE_URL}/users/${currentUser._id}`, {
         profilePicture: data.url,
       });
       dispatch(updateSuccess({ ...currentUser, profilePicture: data.url }));
@@ -119,7 +120,7 @@ const Profile = () => {
     setShowModel(false);
     try {
       dispatch(deleteUserStart());
-      await axios.delete(`/api/v1/auth/delete/${currentUser._id}`);
+      await axios.delete(`${API_BASE_URL}/auth/delete/${currentUser._id}`);
       dispatch(deleteUserSuccess());
       toast.success('Successfully Deleted');
     } catch (error) {
@@ -130,7 +131,7 @@ const Profile = () => {
 
   const handleLogoutUser = async () => {
     try {
-      await axios.post('/api/v1/auth/logout');
+      await axios.post(`${API_BASE_URL}/auth/logout`);
       toast.success('User logged out Successfully');
       dispatch(logout());
     } catch (error) {

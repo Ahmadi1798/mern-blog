@@ -22,6 +22,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API_BASE_URL } from '../../utils/api';
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -56,7 +57,7 @@ const Header = () => {
 
   const handleLogoutUser = async () => {
     try {
-      await axios.post('/api/v1/auth/logout');
+      await axios.post(`${API_BASE_URL}/auth/logout`);
       toast.success('User logged out Successfully');
       dispatch(logout());
     } catch (error) {

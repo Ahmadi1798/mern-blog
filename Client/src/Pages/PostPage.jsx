@@ -10,6 +10,7 @@ import CommentSection from '../Components/CommentSection';
 import PostCard from '../Components/PostCard';
 import { useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_BASE_URL } from '../../utils/api';
 
 // Animation variants
 const containerVariants = {
@@ -50,7 +51,9 @@ const PostPage = () => {
     const fetchPost = async () => {
       try {
         setLoading(true);
-        const res = await axios.get(`/api/v1/posts/getPosts?slug=${slug}`);
+        const res = await axios.get(
+          `${API_BASE_URL}/posts/getPosts?slug=${slug}`
+        );
         setPost(res.data.posts[0]);
         setLoading(false);
       } catch (error) {
@@ -64,7 +67,9 @@ const PostPage = () => {
   useEffect(() => {
     const fetchRecentPosts = async () => {
       try {
-        const res = await axios.get(`/api/v1/posts/getPosts?pageSize=3`);
+        const res = await axios.get(
+          `${API_BASE_URL}/posts/getPosts?pageSize=3`
+        );
         setRecentPosts(res.data.posts);
       } catch (error) {
         toast.error(error?.response?.data?.message || 'Something went wrong');

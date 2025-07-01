@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_BASE_URL } from '../../utils/api';
 import { toast } from 'react-toastify';
 import Comments from './Comments';
 import { Modal, ModalHeader, ModalBody } from 'flowbite-react';
@@ -49,7 +50,7 @@ const CommentSection = ({ postId }) => {
     const getComments = async () => {
       try {
         const res = await axios.get(
-          `/api/v1/comment/getPostComments/${postId}`
+          `${API_BASE_URL}/comment/getPostComments/${postId}`
         );
         setComments(res.data);
       } catch (error) {
@@ -65,7 +66,9 @@ const CommentSection = ({ postId }) => {
       return;
     }
     try {
-      const res = await axios.put(`/api/v1/comment/likeComment/${commentId}`);
+      const res = await axios.put(
+        `${API_BASE_URL}/comment/likeComment/${commentId}`
+      );
       setComments(
         comments.map((comment) =>
           comment._id === commentId
@@ -96,7 +99,7 @@ const CommentSection = ({ postId }) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post('/api/v1/comment/createComment', {
+      const res = await axios.post(`${API_BASE_URL}/comment/createComment`, {
         comment,
         postId,
         userId: currentUser._id,
@@ -115,7 +118,9 @@ const CommentSection = ({ postId }) => {
         navigate('/sign-in');
         return;
       }
-      await axios.delete(`/api/v1/comment/deleteComment/${commentToDelete}`);
+      await axios.delete(
+        `${API_BASE_URL}/comment/deleteComment/${commentToDelete}`
+      );
       setShowModel(false);
       setComments(
         comments.filter((comment) => comment._id !== commentToDelete)
