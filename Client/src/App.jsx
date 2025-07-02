@@ -13,7 +13,7 @@ import CreatePost from './Pages/CreatePost';
 import UpdatePost from './Pages/UpdatePost';
 import PostPage from './Pages/PostPage';
 import ScrollToTop from './Components/ScrollToTop';
-import BackToTop from './Components/BackToTop';
+import BackToTop from './Components/BacktoTop';
 import Contact from './Pages/Contact';
 import ForgotPassword from './Components/ForgotPassword';
 import VerifyEmailNotice from './Components/verifyEmailNotice';
