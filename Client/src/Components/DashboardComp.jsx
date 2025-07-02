@@ -207,9 +207,11 @@ const DashboardComp = () => {
           <div className="overflow-x-auto">
             <Table hoverable className="min-w-[350px]">
               <TableHead>
-                <TableHeadCell>User</TableHeadCell>
-                <TableHeadCell>Username</TableHeadCell>
-                <TableHeadCell>Admin</TableHeadCell>
+                <TableRow>
+                  <TableHeadCell>User</TableHeadCell>
+                  <TableHeadCell>Username</TableHeadCell>
+                  <TableHeadCell>Admin</TableHeadCell>
+                </TableRow>
               </TableHead>
               <TableBody className="divide-y">
                 <AnimatePresence>
@@ -327,9 +329,11 @@ const DashboardComp = () => {
           <div className="overflow-x-auto">
             <Table hoverable className="min-w-[350px]">
               <TableHead>
-                <TableHeadCell>Data updated</TableHeadCell>
-                <TableHeadCell>Comment</TableHeadCell>
-                <TableHeadCell>Likes</TableHeadCell>
+                <TableRow>
+                  <TableHeadCell>Data updated</TableHeadCell>
+                  <TableHeadCell>Comment</TableHeadCell>
+                  <TableHeadCell>Likes</TableHeadCell>
+                </TableRow>
               </TableHead>
               <TableBody className="divide-y">
                 <AnimatePresence>
@@ -408,9 +412,11 @@ const DashboardComp = () => {
           <div className="overflow-x-auto">
             <Table hoverable className="min-w-[350px]">
               <TableHead>
-                <TableHeadCell>Image</TableHeadCell>
-                <TableHeadCell>Title</TableHeadCell>
-                <TableHeadCell>Category</TableHeadCell>
+                <TableRow>
+                  <TableHeadCell>Image</TableHeadCell>
+                  <TableHeadCell>Title</TableHeadCell>
+                  <TableHeadCell>Category</TableHeadCell>
+                </TableRow>
               </TableHead>
               <TableBody className="divide-y">
                 <AnimatePresence>

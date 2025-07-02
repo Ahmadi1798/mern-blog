@@ -7,27 +7,22 @@ import uploadImageRoute from './Routes/uploadImageRoutes.js';
 import postRoutes from './Routes/postRoutes.js';
 import commentRoutes from './Routes/CommentRoutes.js';
 import cookieParser from 'cookie-parser';
-// const allowedOrigins = [
-//   'http://localhost:5173', // for local dev
-//   'https://your-vercel-domain.vercel.app', // replace with your actual Vercel domain
-// ];
+const allowedOrigins = [
+  'http://localhost:5173', // for local dev
+  'https://your-vercel-domain.vercel.app', // replace with your actual Vercel domain
+];
 
 const app = express();
 const port = 3000;
-app.use(
-  cors({
-    credentials: true, // allow cookies to be sent
-  })
-);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-// app.use(
-//   cors({
-//     origin: allowedOrigins,
-//     credentials: true, // if you use cookies/auth
-//   })
-// );
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true, // if you use cookies/auth
+  })
+);
 app.use('/api/v1', userRoute);
 app.use('/api/v1/auth', authRoute);
 app.use('/api/v1', uploadImageRoute);
