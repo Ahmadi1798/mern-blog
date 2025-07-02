@@ -106,9 +106,15 @@ const Profile = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      await axios.put(`${API_BASE_URL}/users/${currentUser._id}`, {
-        profilePicture: data.url,
-      });
+      await axios.put(
+        `${API_BASE_URL}/users/${currentUser._id}`,
+        {
+          profilePicture: data.url,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       dispatch(updateSuccess({ ...currentUser, profilePicture: data.url }));
       toast.success('Image uploaded successfully');
     } catch (error) {
