@@ -9,7 +9,7 @@ import commentRoutes from './Routes/CommentRoutes.js';
 import cookieParser from 'cookie-parser';
 const allowedOrigins = [
   'http://localhost:5173', // for local dev
-  'https://your-vercel-domain.vercel.app', // replace with your actual Vercel domain
+  'https://mern-blog-five-eta.vercel.app', // replace with your actual Vercel domain
 ];
 
 const app = express();
