@@ -56,12 +56,15 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/auth/getUsers`);
+        const res = await axios.get(`${API_BASE_URL}/auth/getUsers`, {
+          withCredentials: true,
+        });
         if (res.data.users.length < 9) {
           setShowMoreUsers(false);
         }
         setUsers(res.data.users);
       } catch (error) {
+        console.log(error);
         toast.error(error?.response?.data?.message || 'Something went wrong');
       }
     };
