@@ -90,7 +90,9 @@ const DashComments = () => {
   const handleDeleteComment = async () => {
     setShowModel(false);
     try {
-      await axios.delete(`${API_BASE_URL}/comment/deleteComment/${commentId}`);
+      await axios.delete(`${API_BASE_URL}/comment/deleteComment/${commentId}`, {
+        withCredentials: true,
+      });
       toast.success('Comment deleted successfully');
       setComments(comments.filter((comment) => comment._id !== commentId));
     } catch (error) {

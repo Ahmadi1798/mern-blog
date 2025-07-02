@@ -96,7 +96,9 @@ const Users = () => {
   const handleDeleteUser = async () => {
     setShowModel(false);
     try {
-      await axios.delete(`${API_BASE_URL}/auth/delete/${userId}`);
+      await axios.delete(`${API_BASE_URL}/auth/delete/${userId}`, {
+        withCredentials: true,
+      });
       toast.success('User deleted successfully');
       setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {
