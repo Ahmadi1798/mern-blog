@@ -134,16 +134,18 @@ const Header = () => {
         )}
       </form>
       {/* Mobile search icon (only show if input is not open) */}
-      {!showMobileSearch && (
-        <Button
-          color="light"
-          size="sm"
-          className="sm:hidden rounded-full p-2 mx-2"
-          onClick={() => setShowMobileSearch(true)}
-        >
-          <GoSearch />
-        </Button>
-      )}
+      <div className="hidden sm:flex">
+        {!showMobileSearch && (
+          <Button
+            color="light"
+            size="sm"
+            className="sm:hidden rounded-full p-2 mx-2"
+            onClick={() => setShowMobileSearch(true)}
+          >
+            <GoSearch />
+          </Button>
+        )}
+      </div>
       {/* Right side controls */}
       <div className="flex items-center gap-2 md:order-2">
         {/* Theme toggle - now visible on all screens */}
@@ -160,46 +162,48 @@ const Header = () => {
           )}
         </Button>
         {/* User dropdown or sign up */}
-        {currentUser ? (
-          <Dropdown
-            dismissOnClick={true}
-            arrowIcon={false}
-            rounded
-            inline
-            label={
-              <Avatar
-                alt="user avatar"
-                rounded
-                img={currentUser.profilePicture}
-                className="ring-2 ring-blue-400 dark:ring-purple-600 transition-shadow duration-200"
-              />
-            }
-          >
-            <DropdownHeader>
-              <span className="block text-sm font-medium truncate">
-                {currentUser.username}
-              </span>
-              <span className="block text-xs text-zinc-500">
-                {currentUser.email}
-              </span>
-            </DropdownHeader>
-            <DropdownItem icon={HiOutlineUserCircle} as="div">
-              <Link to="/dashboard?tab=profile">Profile</Link>
-            </DropdownItem>
-            <DropdownDivider />
-            <DropdownItem icon={HiLogout} onClick={handleLogoutUser}>
-              Logout
-            </DropdownItem>
-          </Dropdown>
-        ) : (
-          <Button
-            outline
-            className="hover:bg-blue-600 hover:text-white border-blue-600 text-blue-600 transition-all duration-150 rounded-full px-4"
-            size="sm"
-          >
-            <Link to="/sign-up">Sign Up</Link>
-          </Button>
-        )}
+        <div className="">
+          {currentUser ? (
+            <Dropdown
+              dismissOnClick={true}
+              arrowIcon={false}
+              rounded
+              inline
+              label={
+                <Avatar
+                  alt="user avatar"
+                  rounded
+                  img={currentUser.profilePicture}
+                  className="ring-2 ring-blue-400 dark:ring-purple-600 transition-shadow duration-200"
+                />
+              }
+            >
+              <DropdownHeader>
+                <span className="block text-sm font-medium truncate">
+                  {currentUser.username}
+                </span>
+                <span className="block text-xs text-zinc-500">
+                  {currentUser.email}
+                </span>
+              </DropdownHeader>
+              <DropdownItem icon={HiOutlineUserCircle} as="div">
+                <Link to="/dashboard?tab=profile">Profile</Link>
+              </DropdownItem>
+              <DropdownDivider />
+              <DropdownItem icon={HiLogout} onClick={handleLogoutUser}>
+                Logout
+              </DropdownItem>
+            </Dropdown>
+          ) : (
+            <Button
+              outline
+              className="hover:bg-blue-600 hover:text-white border-blue-600 text-blue-600 transition-all duration-150 rounded-full px-4"
+              size="sm"
+            >
+              <Link to="/sign-up">Sign Up</Link>
+            </Button>
+          )}
+        </div>
         {/* Mobile menu toggle */}
         <NavbarToggle className="ml-2" />
       </div>
