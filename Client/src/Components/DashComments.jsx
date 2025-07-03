@@ -76,7 +76,10 @@ const DashComments = () => {
     const startIndex = comments.length;
     try {
       const res = await axios.get(
-        `${API_BASE_URL}/comment/getcomments?&startIndex=${startIndex}`
+        `${API_BASE_URL}/comment/getcomments?&startIndex=${startIndex}`,
+        {
+          withCredentials: true,
+        }
       );
       if (res.data.comments.length < 9) {
         setShowMorecomments(false);

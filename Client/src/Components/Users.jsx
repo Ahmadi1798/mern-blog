@@ -77,7 +77,10 @@ const Users = () => {
     const startIndex = users.length;
     try {
       const res = await axios.get(
-        `${API_BASE_URL}/auth/getUsers?&startIndex=${startIndex}`
+        `${API_BASE_URL}/auth/getUsers?&startIndex=${startIndex}`,
+        {
+          withCredentials: true,
+        }
       );
       if (res.data.users.length < 9) {
         setShowMoreUsers(false);
