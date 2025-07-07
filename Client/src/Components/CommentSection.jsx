@@ -50,7 +50,10 @@ const CommentSection = ({ postId }) => {
     const getComments = async () => {
       try {
         const res = await axios.get(
-          `${API_BASE_URL}/comment/getPostComments/${postId}`
+          `${API_BASE_URL}/comment/getPostComments/${postId}`,
+          {
+            withCredentials: true,
+          }
         );
         setComments(res.data);
       } catch (error) {
@@ -67,7 +70,11 @@ const CommentSection = ({ postId }) => {
     }
     try {
       const res = await axios.put(
-        `${API_BASE_URL}/comment/likeComment/${commentId}`
+        `${API_BASE_URL}/comment/likeComment/${commentId}`,
+        {},
+        {
+          withCredentials: true,
+        }
       );
       setComments(
         comments.map((comment) =>
@@ -99,11 +106,17 @@ const CommentSection = ({ postId }) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/comment/createComment`, {
-        comment,
-        postId,
-        userId: currentUser._id,
-      });
+      const res = await axios.post(
+        `${API_BASE_URL}/comment/createComment`,
+        {
+          comment,
+          postId,
+          userId: currentUser._id,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       toast.success('Comment created successfully');
       setComment('');
       setComments([res.data, ...comments]);
@@ -119,7 +132,10 @@ const CommentSection = ({ postId }) => {
         return;
       }
       await axios.delete(
-        `${API_BASE_URL}/comment/deleteComment/${commentToDelete}`
+        `${API_BASE_URL}/comment/deleteComment/${commentToDelete}`,
+        {
+          withCredentials: true,
+        }
       );
       setShowModel(false);
       setComments(
