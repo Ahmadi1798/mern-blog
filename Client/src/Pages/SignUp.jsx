@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import GAuth from '../Components/GAuth';
 import { useDispatch } from 'react-redux';
+import { API_BASE_URL } from '../../utils/api';
 import {
   getAuth,
   sendEmailVerification,
@@ -63,7 +64,7 @@ const SignUp = () => {
 
     try {
       // 1. Register user in your backend
-      const res = await axios.post('/api/v1/auth/register', formData);
+      const res = await axios.post(`${API_BASE_URL}/auth/register`, formData);
 
       // 2. Register user in Firebase for email verification
       const auth = getAuth(app);

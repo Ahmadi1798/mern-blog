@@ -5,6 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { API_BASE_URL } from '../../utils/api';
 
 // Animation variants
 const containerVariants = {
@@ -52,7 +53,7 @@ const CreatePost = () => {
       const formData = new FormData();
       formData.append('image', file);
       formData.append('folder', 'post_images');
-      const res = await axios.post('/api/v1/upload', formData, {
+      const res = await axios.post(`${API_BASE_URL}/upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -70,7 +71,10 @@ const CreatePost = () => {
     e.preventDefault();
     setPublishing(true);
     try {
-      const res = await axios.post('/api/v1/posts/create', postFormData);
+      const res = await axios.post(
+        `${API_BASE_URL}/posts/create`,
+        postFormData
+      );
       toast.success('Post created successfully');
       navigate(`/post/${res.data.slug}`);
     } catch (error) {

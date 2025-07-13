@@ -46,9 +46,13 @@ const Comments = ({ comment, onLike, onEdit, onDelete, index = 0 }) => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`${API_BASE_URL}/comment/editComment/${comment._id}`, {
-        comment: editedComment,
-      });
+      await axios.put(
+        `${API_BASE_URL}/comment/editComment/${comment._id}`,
+        {
+          comment: editedComment,
+        },
+        { withCredentials: true }
+      );
       setShowEditingComment(false);
       onEdit(comment, editedComment);
     } catch (error) {

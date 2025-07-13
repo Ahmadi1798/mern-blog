@@ -14,6 +14,7 @@ import GAuth from '../Components/GAuth';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { app } from '../firebase';
 import { motion } from 'framer-motion';
+import { API_BASE_URL } from '../../utils/api';
 
 // Animation variants
 const containerVariants = {
@@ -73,7 +74,7 @@ const SignIn = () => {
         return;
       }
       // 2. If verified, proceed with backend login
-      const res = await axios.post('/api/v1/auth/login', {
+      const res = await axios.post(`${API_BASE_URL}/auth/login`, {
         email: formData.email,
       });
       toast.success('Login Successful');

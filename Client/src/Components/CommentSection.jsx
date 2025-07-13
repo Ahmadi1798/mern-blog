@@ -113,9 +113,7 @@ const CommentSection = ({ postId }) => {
           postId,
           userId: currentUser._id,
         },
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
       toast.success('Comment created successfully');
       setComment('');
